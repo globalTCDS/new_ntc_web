@@ -1,0 +1,465 @@
+import React, { useEffect, useState } from "react";
+
+/*
+  Single-file React component that reproduces the provided "Next Tech Coder - About Us"
+  page design without Tailwind. This file contains its own CSS which is injected into
+  the document head when the component mounts. It also injects Google Fonts and
+  Material Symbols used by the original design.
+
+  Usage:
+    1. Create a new React app (for example with Create React App).
+    2. Replace the contents of src/App.jsx with this file (or import this component
+       from your existing App.jsx).
+    3. Run `npm start`.
+
+  If you prefer the styles in a separate .css file or want the project split into
+  multiple files, tell me and I will split it for you.
+*/
+
+const INJECTED_CSS = `
+:root{
+  --primary:#047dc3;
+  --accent:#EC783B;
+  --background-light:#F1F3F7;
+  --text:#0f1720;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background:var(--background-light);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+.header{
+  position:sticky;top:0;background:rgba(241,243,247,0.85);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,0.5);z-index:60;
+}
+.header-inner{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{width:40px;height:40px;border-radius:10px;background:rgba(4,125,195,0.08);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:22px}
+.brand h2{margin:0;font-weight:700;font-size:20px}
+.nav{display:none;gap:24px;align-items:center}
+.nav a{color:#475569;text-decoration:none;font-weight:600;font-size:14px}
+.nav a.active{color:var(--primary);font-weight:700}
+.actions{display:flex;align-items:center;gap:8px}
+.icon-btn{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;font-size:18px;color:#475569}
+.join-btn{display:none;padding:8px 14px;border-radius:12px;background:var(--primary);color:white;font-weight:700;border:none;cursor:pointer;box-shadow:0 8px 18px rgba(4,125,195,0.18)}
+.auth-btn{display:none;padding:8px 14px;border-radius:12px;background:transparent;border:none;color:#475569;font-weight:700;cursor:pointer}
+
+/* mobile menu panel */
+.mobile-panel{position:fixed;right:0;top:0;height:100%;width:320px;background:white;box-shadow:-8px 0 30px rgba(2,6,23,0.15);padding:20px;transform:translateX(100%);transition:transform .25s ease-in-out;z-index:80}
+.mobile-panel.open{transform:translateX(0)}
+.mobile-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:70;}
+
+.container{max-width:1200px;margin:0 auto;padding:24px}
+.hero{display:flex;flex-direction:column-reverse;gap:28px;align-items:center}
+.hero-grid{display:flex;gap:36px;align-items:center}
+.hero-text{flex:1}
+.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(236,120,59,0.08);padding:6px 12px;border-radius:999px;font-weight:700;color:var(--accent);font-size:12px}
+.title{font-size:40px;line-height:1.06;margin:6px 0 8px;font-weight:900}
+.title .builders{color:var(--primary);position:relative;display:inline-block}
+.title .underline{position:absolute;left:0;bottom:-6px;width:100%;height:6px;background:linear-gradient(90deg,var(--accent) 0%, rgba(236,120,59,0.6) 100%);opacity:0.6;border-radius:6px}
+.lead{color:#475569;font-size:17px;max-width:640px}
+.ctas{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.cta-primary{background:var(--primary);color:white;padding:12px 20px;border-radius:14px;border:none;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 24px rgba(4,125,195,0.18)}
+.cta-secondary{background:white;border:1px solid #e6e9ee;padding:12px 20px;border-radius:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+
+.hero-image{flex:1;max-width:640px}
+.card-wrap{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 20px 40px rgba(4,125,195,0.06)}
+.card-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.floating-card{position:absolute;left:20px;right:20px;bottom:20px;background:rgba(255,255,255,0.8);backdrop-filter:blur(8px);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 24px rgba(2,6,23,0.06)}
+
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px;background:rgba(255,255,255,0.65);backdrop-filter:blur(10px);padding:22px;border-radius:20px}
+.stat{display:flex;flex-direction:column;align-items:center}
+.stat .num{font-weight:900;font-size:28px}
+.stat .label{font-weight:700;color:#6b7280;font-size:12px}
+
+.mission-vision{display:flex;flex-direction:column;gap:18px;margin-top:36px}
+.card{background:rgba(255,255,255,0.65);backdrop-filter:blur(10px);padding:24px;border-radius:18px;border-top:4px solid var(--primary)}
+.card.alt{border-top-color:var(--accent)}
+.card .icon-wrap{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.card h3{margin:0 0 8px}
+.card p{color:#475569}
+
+/* timeline */
+.timeline{max-width:900px;margin:36px auto;padding:0 12px}
+.timeline-heading{text-align:center;margin-bottom:24px}
+.vert-line{position:relative;height:100%;}
+.vert-line::before{content:"";position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:4px;border-radius:999px;background:linear-gradient(to bottom,var(--primary),var(--accent));opacity:0.18}
+.timeline-item{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:28px 0}
+.timeline-item .text{flex:1;min-width:280px}
+.timeline-item .image{flex:1;min-width:280px}
+.dot{width:18px;height:18px;border-radius:50%;background:white;border:4px solid var(--primary);box-shadow:0 6px 16px rgba(2,6,23,0.06);position:relative}
+.dot.alt{border-color:var(--accent)}
+
+.team{max-width:1200px;margin:48px auto}
+.team-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:18px}
+.team-card{height:360px;border-radius:18px;overflow:hidden;position:relative;cursor:pointer}
+.team-card img{width:100%;height:100%;object-fit:cover}
+.team-card .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.9) 0%, rgba(2,6,23,0.2) 45%, transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;transform:translateY(40px);transition:all .28s ease}
+.team-card:hover .overlay{transform:translateY(0)}
+.team-card .role{font-size:12px;color:var(--accent);font-weight:800}
+.team-card h3{color:white;margin:6px 0 0}
+.team-card p{color:#cbd5e1;margin:8px 0 0}
+
+.cta-bloc{max-width:1200px;margin:48px auto;padding:24px;border-radius:28px;background:linear-gradient(135deg,var(--primary),#276fae);color:white;box-shadow:0 24px 64px rgba(4,125,195,0.18)}
+.cta-bloc h2{margin:0;font-size:34px}
+.cta-bloc p{opacity:0.95}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+
+footer{background:white;padding:40px 20px;border-top:1px solid #eef2f6}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.footer-grid h3{margin:0 0 10px}
+.footer-grid p{color:#68707a}
+
+/* responsive */
+@media(min-width:768px){
+  .nav{display:flex}
+  .join-btn{display:inline-flex}
+  .auth-btn{display:inline-flex}
+  .hero{padding:8px 0}
+  .hero{flex-direction:row}
+  .title{font-size:56px}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .mission-vision{flex-direction:row}
+  .team-grid{grid-template-columns:repeat(4,1fr)}
+}
+`;
+
+function injectAssets() {
+  // inject CSS
+  const style = document.createElement('style');
+  style.setAttribute('data-injected', 'next-tech-coder-styles');
+  style.innerHTML = INJECTED_CSS;
+  document.head.appendChild(style);
+
+  // inject Google Fonts and Material Symbols (only once)
+  if (!document.getElementById('ntc-fonts')) {
+    const link = document.createElement('link');
+    link.id = 'ntc-fonts';
+    link.href = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap";
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }
+
+  if (!document.getElementById('ntc-material')) {
+    const link2 = document.createElement('link');
+    link2.id = 'ntc-material';
+    link2.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap";
+    link2.rel = 'stylesheet';
+    document.head.appendChild(link2);
+  }
+}
+
+export default function NextTechCoderAbout() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    injectAssets();
+    return () => {
+      // optional cleanup: remove injected style (keep fonts)
+      const el = document.querySelector('style[data-injected="next-tech-coder-styles"]');
+      if (el) el.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+  }, [mobileOpen]);
+
+  return (
+    <div>
+      {/* Header */}
+      <header className="header">
+        <div className="header-inner">
+          <div className="brand">
+            <div className="logo" aria-hidden>
+              <span className="material-symbols-outlined">terminal</span>
+            </div>
+            <h2>Next Tech Coder</h2>
+          </div>
+
+          <nav className="nav" aria-label="Main navigation">
+            <a href="/">Home</a>
+            <a href="/courses">Courses</a>
+            <a href="/francy">Francy</a>
+            <a href="/about" className="active">About Us</a>
+            <a href="/contact">Contact Us</a>
+          </nav>
+
+          <div className="actions">
+            <button className="icon-btn" aria-label="Search" onClick={() => { const q = prompt('Search Next Tech Coder (demo):'); if (q) console.log('search:', q); }}>
+              <span className="material-symbols-outlined">search</span>
+            </button>
+            <button className="icon-btn" aria-label="Notifications" onClick={() => alert('You have 3 new notifications (demo).')}>
+              <span className="material-symbols-outlined">notifications</span>
+            </button>
+
+            <button className="icon-btn" aria-label="Open mobile menu" onClick={() => setMobileOpen(true)}>
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+
+            <button className="auth-btn">Log In</button>
+            <button className="join-btn">Join Now</button>
+          </div>
+        </div>
+
+        {/* Mobile panel */}
+        {mobileOpen && <div className="mobile-backdrop" onClick={() => setMobileOpen(false)}></div>}
+        <div className={`mobile-panel ${mobileOpen ? 'open' : ''}`} role="dialog" aria-modal={mobileOpen}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:18}}>
+            <div style={{display:'flex',gap:12,alignItems:'center'}}>
+              <div className="logo" style={{width:36,height:36}}><span className="material-symbols-outlined">terminal</span></div>
+              <strong>Next Tech Coder</strong>
+            </div>
+            <button className="icon-btn" onClick={() => setMobileOpen(false)} aria-label="Close menu"><span className="material-symbols-outlined">close</span></button>
+          </div>
+          <nav style={{display:'flex',flexDirection:'column',gap:8}}>
+            <a href="#">Home</a>
+            <a href="#">Courses</a>
+            <a href="#">About Us</a>
+            <a href="#">Blog</a>
+            <a href="#">Mentorship</a>
+            <a href="#">Pricing</a>
+          </nav>
+          <div style={{marginTop:18,borderTop:'1px solid #eef2f6',paddingTop:16}}>
+            <button style={{width:'100%',padding:12,marginBottom:8,borderRadius:10,border:'1px solid #e6e9ee',background:'#fff'}}>Log In</button>
+            <button style={{width:'100%',padding:12,borderRadius:10,background:'var(--primary)',color:'#fff',fontWeight:800}}>Join Now</button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        {/* Hero */}
+        <section className="container hero">
+          <div className="hero-grid">
+            <div className="hero-text">
+              <div className="pill"><span style={{width:8,height:8,background:'var(--accent)',borderRadius:999,display:'inline-block'}}></span><span style={{textTransform:'uppercase',fontSize:12}}>Defining the Future</span></div>
+              <h1 className="title">We Build The <span className="builders">Builders<span className="underline" aria-hidden></span></span></h1>
+              <p className="lead">Next Tech Coder bridges the gap between theoretical knowledge and industry application. We are an ecosystem where code meets creativity, empowering the next generation of tech leaders.</p>
+
+              <div className="ctas">
+                <button className="cta-primary"><span className="material-symbols-outlined">rocket_launch</span>Explore Our Journey</button>
+                <button className="cta-secondary"><span className="material-symbols-outlined">play_circle</span>Watch Video</button>
+              </div>
+
+              {/* Stats */}
+              <div className="stats" style={{marginTop:22}}>
+                <div className="stat"><div className="num">5k+</div><div className="label">Students Trained</div></div>
+                <div className="stat"><div className="num" style={{color:'var(--accent)'}}>50+</div><div className="label">Industry Courses</div></div>
+                <div className="stat"><div className="num">120+</div><div className="label">Expert Mentors</div></div>
+                <div className="stat"><div className="num" style={{color:'var(--accent)'}}>95%</div><div className="label">Placement Rate</div></div>
+              </div>
+
+            </div>
+
+            <div className="hero-image">
+              <div className="card-wrap" style={{height:420}}>
+                <img alt="Diverse group of students collaborating" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA40usFUj08eOJGNy4MRcXPCVKRfcu3ZiqIAC404o7fmXjxpxf2H0yB0BRnQe1-PsHJoXZbghUHin0k7ZEjYn49ipEWCVhc9bE4WI2tODWsHXmbtFCLJASE_z_To9EOUoGHa_7UEgpT8YWZuG-VkPU9sACAdDKeBXm0UQ7yWu0HuHO-Oh-qfZ9HUYyySjVXT3eh_S_AjD1_brq_eulVf8ZfCaOwuqEegwSQl89sDNON74uO6fhEt4ZZfGEieW9id87WBLPAgTuepg"/>
+                <div className="floating-card">
+                  <div style={{display:'flex',gap:12,alignItems:'center'}}>
+                    <div style={{width:44,height:44,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',background:'#e6ffef',color:'#059669'}}><span className="material-symbols-outlined">code</span></div>
+                    <div>
+                      <div style={{fontSize:11,color:'#64748b',fontWeight:800,textTransform:'uppercase'}}>Current Session</div>
+                      <div style={{fontWeight:800}}>Full Stack Development</div>
+                    </div>
+                  </div>
+                  <div style={{background:'#ecfdf5',padding:'6px 8px',borderRadius:8,color:'#059669',fontWeight:800}}>Live</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Mission & Vision */}
+        <section className="container mission-vision">
+          <div className="card" style={{borderTopColor:'var(--primary)'}}>
+            <div className="icon-wrap" style={{background:'rgba(4,125,195,0.08)',color:'var(--primary)'}}><span className="material-symbols-outlined">flag</span></div>
+            <h3>Our Mission</h3>
+            <p>To democratize coding education and provide accessible, high-quality technical training to students worldwide. We strive to foster a community of innovators who aren't just consumers of technology, but creators of it.</p>
+          </div>
+
+          <div className="card alt" style={{borderTopColor:'var(--accent)'}}>
+            <div className="icon-wrap" style={{background:'rgba(236,120,59,0.08)',color:'var(--accent)'}}><span className="material-symbols-outlined">visibility</span></div>
+            <h3>Our Vision</h3>
+            <p>To be the leading global platform for tech education, creating a world where anyone, anywhere can master the skills needed to shape the future of artificial intelligence, web development, and software engineering.</p>
+          </div>
+        </section>
+
+        {/* Timeline */}
+        <section className="timeline">
+          <div className="timeline-heading">
+            <div style={{color:'var(--accent)',fontWeight:800,fontSize:12,textTransform:'uppercase',letterSpacing:2}}>History</div>
+            <h2 style={{marginTop:8}}>Our Journey Through Time</h2>
+          </div>
+
+          <div style={{position:'relative'}} className="vert-line">
+
+            <div className="timeline-item">
+              <div className="text" style={{textAlign:'right'}}>
+                <div style={{fontSize:28,fontWeight:900,color:'rgba(4,125,195,0.15)'}}>2018</div>
+                <h3 style={{margin:'8px 0'}}>The Inception</h3>
+                <p style={{color:'#475569'}}>Started as a small coding boot camp in a garage with just 5 students and a passion for Python.</p>
+              </div>
+              <div style={{display:'flex',justifyContent:'center',alignItems:'flex-start',width:80}}>
+                <div className="dot"></div>
+              </div>
+              <div className="image" style={{display:'flex',justifyContent:'flex-start'}}>
+                <div style={{width:'100%',height:90,borderRadius:12,overflow:'hidden',background:'#e6eaf0'}}>
+                  <img alt="Small group brainstorming" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE9qBmAlNOFozqamVnUIkhjxrTZl4xalopLf4Y6ogiBjEiqHxgDpMQdgVdU4nhqj-aG3E0HGFUtbEJPoe313sElMHXMmG4IP0BgCx5tnzQzJohEGR-Mfa4CIlY7lMxJAiUOM4BRYRAkAmfv14Oi6tFqBteoftFUYsynl_AlzNJIXrhDkldOZ_uTulUcEop80F_l5ek_hHB1KJDP2synEApOZul07I1co5jYtx_gXvNmLCoyl4Y5xvb5HMHe8Vmc_b4Db8oicA1jdQ" style={{width:'100%',height:'100%',objectFit:'cover',filter:'grayscale(60%)',opacity:0.75}}/>
+                </div>
+              </div>
+            </div>
+
+            <div className="timeline-item">
+              <div className="image" style={{display:'flex',justifyContent:'flex-end'}}>
+                <div style={{width:'100%',height:90,borderRadius:12,overflow:'hidden',background:'#e6eaf0'}}>
+                  <img alt="Hands typing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI98oW-59Cf4trxodXNI2M5Lq9LhWpzEQc5M9A11AmxYPb-MJwmVPiOKGY4DUd4YVHO1T9grEUM5DtwmMeQBr6R6qDtgcmMf-YAtc7wSsmC2eruDc9x-zfSGFkWbpran764771Ysny0rDarXo1eVp4uiuvGRNcwEfv1pe3bID1KL1Jmit6jZLglYd8MRATSfkzVUijSf0jUiOTvzr-XzVDRUQxOXPfMFfqxfaIwoGSNnRVj5qNNrfAzUtAS17LY0Qx-7txBmyUX8s" style={{width:'100%',height:'100%',objectFit:'cover',filter:'grayscale(60%)',opacity:0.75}}/>
+                </div>
+              </div>
+              <div style={{display:'flex',justifyContent:'center',alignItems:'flex-start',width:80}}>
+                <div className="dot alt" style={{borderColor:'var(--accent)'}}></div>
+              </div>
+              <div className="text">
+                <div style={{fontSize:28,fontWeight:900,color:'rgba(236,120,59,0.12)'}}>2020</div>
+                <h3 style={{margin:'8px 0'}}>Going Global</h3>
+                <p style={{color:'#475569'}}>Launched our online platform, reaching students across 15 countries and introducing AI curriculum.</p>
+              </div>
+            </div>
+
+            <div className="timeline-item">
+              <div className="text" style={{textAlign:'right'}}>
+                <div style={{fontSize:28,fontWeight:900,color:'rgba(4,125,195,0.15)'}}>2023</div>
+                <h3 style={{margin:'8px 0'}}>Innovation Hub</h3>
+                <p style={{color:'#475569'}}>Established our dedicated Innovation Lab for student projects and partnered with 20+ tech giants.</p>
+              </div>
+              <div style={{display:'flex',justifyContent:'center',alignItems:'flex-start',width:80}}>
+                <div className="dot"></div>
+              </div>
+              <div className="image" style={{display:'flex',justifyContent:'flex-start'}}>
+                <div style={{width:'100%',height:90,borderRadius:12,overflow:'hidden',background:'#e6eaf0'}}>
+                  <img alt="Students presenting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZjo7EZQ7evrtXQn9neMUkkY3gN4_idFEIPCKWmnTFHiIpCnxGwwAcIz-dLxW9fFnWLf4RItV6HZ1tclyjIex6yoXMDV-cp68rNNvmzbsly5GG35wD2lRArKAKAPRZzN0Rs-BYoCSo6I3ohINJBDd-sq5KLiCqmbnEpJ-1fMsCPlrovA8PilZnCRuO4T_wCQmnK5_Q1NHU2MtZ6CRw4MsUZrEm2IuEMyVJO2FdEOI2Okdfe0QSw_JTGHtXgWS4R4W-VR8YqxlQOzc" style={{width:'100%',height:'100%',objectFit:'cover',filter:'grayscale(60%)',opacity:0.75}}/>
+                </div>
+              </div>
+            </div>
+
+            <div className="timeline-item">
+              <div className="image" style={{display:'flex',justifyContent:'flex-end'}}>
+                <div style={{width:'100%',height:90,borderRadius:12,overflow:'hidden',background:'#e6eaf0'}}>
+                  <img alt="Globe hologram" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIyytmvhHyfF93mwZCjXzQZFLn02VdiFxPKUxwNV8ks73pAhpxl_-FjWCn2q_ezv_1cg14jvyXcjYOiXXEtUJAZMIi1_TD7Mzt6NGnvuoxSLVX01IzQ-C6C4zse4UQFea5sfiLmKL_80sM6akbstnXiDb8HF9JFTllrfofr5D_cCB5d5Xw0pNY22NJDB6ya9gNNlFBlUCWvyZMX5P2tHQOKO1_6W61XDw_w9loTBnzHnRiyq3OnHSdqm6YllxhO673dQrSlGM6Oyw" style={{width:'100%',height:'100%',objectFit:'cover',filter:'grayscale(60%)',opacity:0.75}}/>
+                </div>
+              </div>
+              <div style={{display:'flex',justifyContent:'center',alignItems:'flex-start',width:80}}>
+                <div className="dot alt" style={{borderColor:'var(--accent)',animation:'pulse 1.6s infinite'}}></div>
+              </div>
+              <div className="text">
+                <div style={{fontSize:28,fontWeight:900,color:'rgba(236,120,59,0.12)'}}>Today</div>
+                <h3 style={{margin:'8px 0'}}>Building the Builders</h3>
+                <p style={{color:'#475569'}}>We are constantly evolving, adding courses in Blockchain, Quantum Computing, and more.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Team */}
+        <section className="team container">
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:18}}>
+            <div>
+              <div style={{color:'var(--primary)',fontWeight:800,fontSize:12,textTransform:'uppercase',letterSpacing:2}}>Mentors</div>
+              <h2 style={{marginTop:6}}>Meet The Experts</h2>
+              <p style={{color:'#475569',marginTop:6}}>Industry veterans dedicated to your growth.</p>
+            </div>
+            <button style={{background:'transparent',border:'none',color:'var(--primary)',fontWeight:800,cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>View All Mentors <span className="material-symbols-outlined">arrow_forward</span></button>
+          </div>
+
+          <div className="team-grid">
+            {renderTeamCard('Alex Morgan','AI Specialist','Former Google Brain engineer with a passion for teaching neural networks.','https://lh3.googleusercontent.com/aida-public/AB6AXuDCNqNOy8nCiw1y1q77XZwVTyV2HzqhvSfmbC-pz0d50EAuGYLeMw5ITfzbto3SCst675VwAXUQWXh5XR0cIZY_L8DslvXqIEWMrdJH2IkRKIxpjYzg1J0NG6Q72vhs8THqQ9RoZGrcM0moTSt-Z3NJzs-nOpzpbDkpMFxW5yBVoL1SSoCJXkGvvFBOnJCmUTanWSmuo_5uEEaQEFbYIXsVkLh6_2fKzRW90ABDrQFXKB-XVscCBj6_KZ1e5CoCvFMm8RRMRr9c9Ls')}
+            {renderTeamCard('Sarah Chen','Lead Developer','Full-stack wizard contributing to major open source React libraries.','https://lh3.googleusercontent.com/aida-public/AB6AXuAGYralqiVdD0eCp0lVnZfSyIwZLVmpHKkKGEwZ0eOqFsjYR0FYpRnzO-rpg7RC8GbUbi9MV93l7KQTr30P6ezTgIg412gc2Zh4h3tJv500f-f-Nx6CtKkDdQ1BR7Qe0zhVV99XyniX0E5MU8ueQpzgEGr_1HgTF1h-FQiKR4w-XEXxaX3zmZ3dpAmuDFWHnX9uBlPaAVBncBrIG7W8f0EHOREwV0jDnK3Y1skjJfIoRgK2qLBOPDq_4zxCagls47ZtmG023ypveeY')}
+            {renderTeamCard('David Kim','Data Science','PhD in Statistics, specializing in Big Data analytics and visualization.','https://lh3.googleusercontent.com/aida-public/AB6AXuBjO5fVX_7hfSb5VhBNc2vx8pHERNSNRuGgSwetd39FnAV9QWWuDM5DXpBiWNbUIezdheRWqENl79c5lexZfKkdhcKzVzjg8mERa0PCBALSYja3gwNsl3oeqPtNs6HvYPDP1ogenm1t2la_oZxqUKyA-rowInF9gqOqhL2IGJ-zSHlhI7Dug9OYz_aKEZT6hHVGFXNamKe2_iqEsM-XAIqOGJzIHQ1IU8-I90rXlWJ13-tar3Fo8RJaDQ2jYHQlOwfDpvHOf6TFUFM')}
+            {renderTeamCard('Emily Watson','UX/UI Design','Award-winning designer teaching the art of user-centric digital experiences.','https://lh3.googleusercontent.com/aida-public/AB6AXuDbIrcjoukYGQdQi8iN6pff0csF6QxJaklVTuf-KbwncJvC3a0T4F_KWdGLbLUzCg1m41TqARScRoiqc2DQhcZPx2SjzPX9Do87Lk2PXlwPAh526NymoJxaTUEjfUPEE4MNG1IHsuNTp5Yy-CcLb7YhR9fX3SUHvvb5wc54wZU8_vYzGXikYQpBzJsbAe_PDu2cflhMLzWXPnbM8sZN_sqCymrxcJEJasQeLaFZfmWzAYXJWsxjqJfnVzmtq0lED99aSbGiWqezuc4')}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="container" style={{paddingTop:28,paddingBottom:28}}>
+          <div className="cta-bloc">
+            <h2>Ready to Code Your Future?</h2>
+            <p>Join thousands of students who have transformed their careers with Next Tech Coder. The first step starts here.</p>
+            <div className="cta-row">
+              <button style={{background:'var(--accent)',color:'#fff',padding:'12px 18px',borderRadius:12,border:'none',fontWeight:800}}>Start Free Trial</button>
+              <button style={{background:'transparent',border:'1px solid rgba(255,255,255,0.3)',color:'#fff',padding:'12px 18px',borderRadius:12,fontWeight:800}}>Download Syllabus</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      {/* Footer */}
+      <footer>
+        <div className="footer-grid">
+          <div>
+            <div style={{display:'flex',gap:10,alignItems:'center',marginBottom:12}}>
+              <div style={{width:40,height:40,borderRadius:10,background:'rgba(4,125,195,0.08)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--primary)'}}><span className="material-symbols-outlined">terminal</span></div>
+              <h3>Next Tech Coder</h3>
+            </div>
+            <p>Empowering the next generation of tech leaders through accessible, high-quality coding education.</p>
+          </div>
+
+          <div>
+            <h3>Platform</h3>
+            <ul style={{listStyle:'none',padding:0,margin:0,display:'flex',flexDirection:'column',gap:8,color:'#475569'}}>
+              <li>Browse Courses</li>
+              <li>Mentorship</li>
+              <li>Pricing</li>
+              <li>For Business</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Company</h3>
+            <ul style={{listStyle:'none',padding:0,margin:0,display:'flex',flexDirection:'column',gap:8,color:'#475569'}}>
+              <li>About Us</li>
+              <li>Careers</li>
+              <li>Blog</li>
+              <li>Contact</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Stay Updated</h3>
+            <form onSubmit={(e)=>{e.preventDefault();alert('Subscribed (demo)')}} style={{display:'flex',flexDirection:'column',gap:8}}>
+              <input type="email" placeholder="Enter your email" style={{padding:10,borderRadius:10,border:'1px solid #e6e9ee'}}/>
+              <button style={{padding:10,borderRadius:10,background:'#0f1720',color:'#fff',border:'none'}}>Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <div style={{maxWidth:1200,margin:'24px auto 0',display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}>
+          <div style={{color:'#9aa4b2'}}>© 2024 Next Tech Coder. All rights reserved.</div>
+          <div style={{display:'flex',gap:16,color:'#9aa4b2'}}>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function renderTeamCard(name, role, desc, img) {
+  return (
+    <div key={name} className="team-card" style={{borderRadius:18,overflow:'hidden'}}>
+      <img alt={`Portrait of ${name}`} src={img} />
+      <div className="overlay">
+        <div className="role">{role}</div>
+        <h3>{name}</h3>
+        <p style={{color:'#cbd5e1'}}>{desc}</p>
+      </div>
+    </div>
+  );
+}
