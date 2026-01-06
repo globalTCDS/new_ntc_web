@@ -1,0 +1,692 @@
+<!doctype html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Next Tech Coder - About Us</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --primary: #047dc3;
+      --accent: #EC783B;
+      --bg-light: #F1F3F7;
+      --bg-dark: #0f1c23;
+      --text: #0f1724; /* slate-900 */
+      --muted: #6b7280; /* slate-500 */
+      --glass-white: rgba(255,255,255,0.65);
+      --glass-header: rgba(241,243,247,0.85);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-lg: 0 10px 30px rgba(4,125,195,0.08);
+      --container-max: 1280px;
+      --break-md: 768px;
+    }
+
+    /* Basic reset & typography */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background:var(--bg-light);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      line-height:1.5;
+      -webkit-text-size-adjust:100%;
+    }
+    .font-display { font-family: "Space Grotesk","Noto Sans",sans-serif; }
+
+    /* container */
+    .wrap{ max-width:var(--container-max); margin:0 auto; padding:0 16px; }
+
+    /* small utility sizes used in markup */
+    .size-2{ width:0.5rem; height:0.5rem; display:inline-block }
+    .size-8{ width:2rem; height:2rem; display:inline-flex; align-items:center; justify-content:center }
+    .size-10{ width:2.5rem; height:2.5rem; display:inline-flex; align-items:center; justify-content:center }
+    .size-16{ width:4rem; height:4rem; display:inline-flex; align-items:center; justify-content:center }
+    .size-64{ width:16rem; height:16rem; display:block }
+    .size-80{ width:20rem; height:20rem; display:block }
+
+    /* Custom scrollbar for webkit */
+    ::-webkit-scrollbar{ width:8px }
+    ::-webkit-scrollbar-track{ background:var(--bg-light) }
+    ::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:4px }
+    ::-webkit-scrollbar-thumb:hover{ background:#94a3b8 }
+
+    /* subtle background pattern */
+    .bg-pattern{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        radial-gradient(var(--primary) 0.5px, transparent 0.5px),
+        radial-gradient(var(--primary) 0.5px, var(--bg-light) 0.5px);
+      background-size:20px 20px;
+      background-position:0 0, 10px 10px;
+      opacity:0.05;
+    }
+
+    /* glass styles */
+    .glass-card{
+      background: var(--glass-white);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border:1px solid rgba(255,255,255,0.5);
+    }
+    .glass-header{
+      background: var(--glass-header);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    a{ color:inherit; text-decoration:none }
+
+    /* header */
+    header.site-header{
+      position:sticky; top:0; z-index:50;
+      border-bottom:1px solid rgba(255,255,255,0.5);
+    }
+    .site-top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding:16px 0;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; color:var(--text) }
+    .brand .logo{
+      display:inline-flex; width:40px; height:40px; border-radius:10px;
+      align-items:center; justify-content:center; background:rgba(4,125,195,0.08); color:var(--primary);
+      font-size:1.5rem;
+    }
+    .brand h2{ margin:0; font-weight:700; font-size:1.125rem; letter-spacing:-0.02em }
+
+    /* nav - desktop */
+    nav.desktop{ display:none; gap:28px; align-items:center; }
+    nav.desktop a{ color:#64748b; font-weight:600; font-size:0.9rem; transition:color .15s }
+    nav.desktop a.active, nav.desktop a:hover{ color:var(--primary) }
+    .top-actions{ display:flex; align-items:center; gap:12px }
+
+    .icon-btn{
+      width:40px; height:40px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center;
+      background:transparent; border:none; cursor:pointer; color:#475569; font-size:1.1rem;
+    }
+    .icon-btn:focus{ outline:3px solid rgba(4,125,195,0.12); outline-offset:2px; border-radius:12px }
+
+    /* auth buttons */
+    .auth{ display:flex; gap:8px; align-items:center }
+    .btn-ghost{ display:none; padding:0 18px; height:40px; align-items:center; justify-content:center; border-radius:12px; font-weight:700; background:transparent; color:#475569; border:none; cursor:pointer }
+    .btn-primary{
+      display:none;
+      padding:0 18px; height:40px; align-items:center; justify-content:center; border-radius:12px;
+      background:var(--primary); color:white; font-weight:700; box-shadow: 0 8px 24px rgba(4,125,195,0.15); cursor:pointer;
+      transform:translateZ(0); transition:transform .18s ease, background .12s;
+    }
+    .btn-primary:hover{ transform:scale(1.03) }
+
+    /* mobile menu overlays */
+    #mobile-menu{ display:none; position:fixed; inset:0; z-index:60 }
+    #mobile-menu .backdrop{ position:absolute; inset:0; background:rgba(0,0,0,0.4) }
+    #mobile-panel{
+      position:absolute; right:0; top:0; width:320px; height:100%; background:white; padding:24px; box-shadow: -12px 0 40px rgba(15,23,36,0.08); overflow:auto;
+    }
+
+    /* main layout */
+    main{ position:relative; z-index:10; padding-bottom:48px }
+
+    /* hero */
+    .hero { padding:48px 0; }
+    .hero-row{ display:flex; flex-direction:column-reverse; gap:24px; align-items:center }
+    .hero .col{ flex:1; min-width:0 }
+    .intro-badge{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:rgba(236,120,59,0.08);
+      font-weight:700; text-transform:uppercase; letter-spacing:0.08em; font-size:0.75rem; color:var(--accent);
+    }
+    .headline{
+      font-family: "Space Grotesk", "Noto Sans", sans-serif;
+      font-weight:900; margin:6px 0 0; line-height:1.05;
+      font-size:2.25rem; letter-spacing:-0.02em;
+    }
+    .headline .highlight{ color:var(--primary); position:relative; display:inline-block }
+    .headline svg{ position:absolute; left:0; bottom:-8px; width:100%; height:18px; opacity:0.6 }
+
+    .lead{ color: #475569; font-size:1.0625rem; max-width:44ch; margin-top:12px }
+
+    .hero-cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:16px }
+    .btn-cta{
+      display:inline-flex; align-items:center; gap:10px; height:48px; padding:0 22px; border-radius:12px; font-weight:800; cursor:pointer;
+      transition:transform .18s ease, background .12s;
+    }
+    .btn-cta.primary{ background:var(--primary); color:white; box-shadow:0 14px 36px rgba(4,125,195,0.12) }
+    .btn-cta.primary:hover{ transform:translateY(-3px) }
+    .btn-cta.ghost{ background:white; border:1px solid rgba(15,23,36,0.06); color:#374151 }
+    .btn-cta.ghost:hover{ background:rgba(255,235,213,0.12) }
+
+    /* hero image card */
+    .hero-image-wrap{ width:100%; max-width:600px; border-radius:20px; overflow:hidden; position:relative; box-shadow:0 30px 60px rgba(2,6,23,0.06) }
+    .hero-image-wrap img{ display:block; width:100%; height:100%; object-fit:cover; transition:transform .7s ease }
+    .hero-image-wrap:hover img{ transform:scale(1.05) }
+    .hero-image-overlay{ position:absolute; inset:0; background: linear-gradient(135deg, rgba(4,125,195,0.12), rgba(236,120,59,0.06)); mix-blend-mode:overlay; z-index:10; }
+    .floating-card{
+      position:absolute; left:24px; right:24px; bottom:24px; display:flex; align-items:center; justify-content:space-between;
+      padding:12px; border-radius:12px; z-index:20; background:rgba(255,255,255,0.85);
+      backdrop-filter: blur(6px); border:1px solid rgba(255,255,255,0.6);
+      animation: floaty 3s ease-in-out infinite;
+    }
+    @keyframes floaty{ 0%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } 100%{ transform:translateY(0) } }
+
+    /* stats strip */
+    .stats-strip{ padding:28px 0; }
+    .stats-grid{
+      display:grid; grid-template-columns:repeat(2,1fr); gap:18px; padding:22px; align-items:center;
+      border-radius:20px; background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.65)); box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+      border:1px solid rgba(255,255,255,0.6);
+    }
+    .stat-item{ text-align:center; padding:6px 8px }
+    .stat-item .num{ font-size:2rem; font-weight:900 }
+    .stat-item .label{ display:block; font-weight:700; font-size:0.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em }
+
+    /* mission/vision cards */
+    .two-col{ display:flex; flex-direction:column; gap:18px }
+    .card{
+      padding:28px; border-radius:20px; background:var(--glass-white); border-top:4px solid transparent; transition:transform .2s, box-shadow .2s;
+    }
+    .card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(4,125,195,0.06) }
+    .card .icon-wrap{ display:inline-flex; align-items:center; justify-content:center; width:64px; height:64px; border-radius:16px; margin-bottom:16px }
+    .card.mission{ border-top-color:var(--primary) }
+    .card.vision{ border-top-color:var(--accent) }
+
+    /* timeline */
+    .timeline{ max-width:880px; margin:0 auto; position:relative; padding:12px 0 20px }
+    .timeline .vline{ position:absolute; left:24px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, var(--primary), var(--accent), var(--primary)); opacity:0.25; border-radius:2px }
+    .timeline-item{ position:relative; display:flex; flex-direction:column; gap:12px; margin-bottom:28px; padding-left:48px; min-height:72px }
+    .timeline-item .dot{
+      position:absolute; left:16px; top:6px; width:16px; height:16px; background:white; border-radius:50%;
+      box-shadow:0 6px 16px rgba(2,6,23,0.08); border:4px solid var(--primary);
+    }
+    .timeline-item.alt .dot{ border-color:var(--accent) }
+    .timeline-item h3{ margin:0; font-size:1.05rem; font-weight:800 }
+    .timeline-item p{ margin:6px 0 0; color:#475569; font-size:0.9rem }
+
+    /* team grid */
+    .team-grid{ display:grid; grid-template-columns:repeat(1,1fr); gap:18px }
+    .team-card{
+      position:relative; height:360px; overflow:hidden; border-radius:20px; cursor:pointer; box-shadow:0 10px 24px rgba(2,6,23,0.06);
+      transition: box-shadow .25s, transform .25s;
+    }
+    .team-card img{ width:100%; height:100%; object-fit:cover; transition: transform .5s }
+    .team-card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(2,6,23,0.08) }
+    .team-card .overlay{
+      position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.9) 15%, rgba(2,6,23,0.2) 40%, transparent 80%); opacity:0.6;
+      transition:opacity .2s;
+    }
+    .team-card .info{
+      position:absolute; bottom:0; left:0; right:0; padding:20px; transform:translateY(30px);
+      transition:transform .3s;
+    }
+    .team-card:hover .info{ transform:translateY(0) }
+    .team-card .title{ color:white; font-weight:800; margin:6px 0 0 }
+    .team-card .subtitle{ color:rgba(255,255,255,0.85); font-weight:700; font-size:0.78rem; text-transform:uppercase }
+
+    /* CTA */
+    .cta{
+      padding:36px 0;
+    }
+    .cta-inner{
+      border-radius:28px; padding:32px; text-align:center; position:relative; overflow:hidden; color:white;
+      background:linear-gradient(135deg,var(--primary), #156fb6 60%);
+      box-shadow:0 30px 80px rgba(2,6,23,0.14)
+    }
+    .cta h2{ margin:0; font-size:1.6rem; font-weight:900 }
+    .cta p{ color: rgba(255,255,255,0.9); margin-top:8px; font-size:1.05rem }
+    .cta .cta-buttons{ display:flex; gap:12px; justify-content:center; margin-top:16px; flex-wrap:wrap }
+    .btn-large{ height:56px; padding:0 26px; border-radius:14px; font-weight:900; cursor:pointer }
+
+    /* footer */
+    footer{ background:white; border-top:1px solid rgba(15,23,36,0.04); padding:48px 0 36px; color:#334155 }
+    .footer-grid{ display:grid; grid-template-columns:repeat(1,1fr); gap:24px }
+    .footer-bottom{ border-top:1px solid rgba(15,23,36,0.04); padding-top:18px; display:flex; flex-direction:column; gap:8px; align-items:center }
+
+    /* responsive */
+    @media(min-width:768px){
+      nav.desktop{ display:flex }
+      .btn-ghost{ display:inline-flex }
+      .btn-primary{ display:inline-flex }
+
+      .hero-row{ flex-direction:row; align-items:center }
+      .headline{ font-size:3.75rem }
+      .lead{ font-size:1.125rem }
+
+      .stats-grid{ grid-template-columns:repeat(4,1fr) }
+      .two-col{ flex-direction:row }
+      .timeline{ padding-left:64px; }
+      .timeline .vline{ left:50%; transform:translateX(-50%); width:2px }
+      .timeline-item{ padding-left:0; width:50%; }
+      .timeline-item:nth-child(odd){ margin-left:0; text-align:right; padding-right:48px }
+      .timeline-item:nth-child(even){ margin-left:auto; text-align:left; padding-left:48px }
+      .timeline-item .dot{ left:50%; transform:translateX(-50%); top:12px }
+      .team-grid{ grid-template-columns:repeat(2,1fr) }
+      .wrap{ padding:0 28px }
+      .footer-grid{ grid-template-columns:repeat(4,1fr) }
+    }
+
+    @media(min-width:1024px){
+      .team-grid{ grid-template-columns:repeat(4,1fr) }
+      .headline{ font-size:4.5rem }
+      .wrap{ padding:0 36px }
+      .hero{ padding:64px 0 }
+    }
+  </style>
+</head>
+<body class="font-display">
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <!-- Top Navigation -->
+  <header class="site-header glass-header">
+    <div class="wrap site-top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <span class="material-symbols-outlined" style="font-size:1.35rem;">terminal</span>
+        </div>
+        <h2>Next Tech Coder</h2>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav class="desktop" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="courses">Courses</a>
+        <a href="francy">Francy</a>
+        <a href="about" class="active">About Us</a>
+        <a href="contact">Contact Us</a>
+      </nav>
+
+      <!-- Top three menu buttons + auth -->
+      <div class="top-actions">
+        <div style="display:flex; align-items:center; gap:8px; margin-right:4px;">
+          <button id="top-search-btn" class="icon-btn" aria-label="Search">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+
+          <button id="top-notif-btn" class="icon-btn" aria-label="Notifications" style="position:relative">
+            <span class="material-symbols-outlined">notifications</span>
+            <span style="position:absolute; top:-4px; right:-4px; background:var(--accent); color:white; border-radius:999px; padding:2px 6px; font-size:10px; font-weight:800;">3</span>
+          </button>
+
+          <button id="mobile-menu-toggle" class="icon-btn" aria-label="Open menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+
+          <button id="desktop-menu-toggle" class="icon-btn" aria-label="Apps">
+            <span class="material-symbols-outlined">apps</span>
+          </button>
+        </div>
+
+        <div class="auth">
+          <button class="btn-ghost">Log In</button>
+          <button class="btn-primary">Join Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" aria-hidden="true">
+      <div id="mobile-menu-backdrop" class="backdrop"></div>
+      <div id="mobile-panel">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div class="size-8" style="border-radius:10px; background:rgba(4,125,195,0.08); color:var(--primary);">
+              <span class="material-symbols-outlined">terminal</span>
+            </div>
+            <h3 style="margin:0; font-weight:800;">Next Tech Coder</h3>
+          </div>
+          <button id="mobile-menu-close" class="icon-btn" aria-label="Close menu"><span class="material-symbols-outlined">close</span></button>
+        </div>
+
+        <nav style="display:flex; flex-direction:column; gap:8px; margin-bottom:18px;">
+          <a class="p-3" href="#">Home</a>
+          <a class="p-3" href="#">Courses</a>
+          <a class="p-3" href="#">About Us</a>
+          <a class="p-3" href="#">Blog</a>
+          <a class="p-3" href="#">Mentorship</a>
+          <a class="p-3" href="#">Pricing</a>
+        </nav>
+
+        <div style="border-top:1px solid rgba(15,23,36,0.04); padding-top:16px;">
+          <button style="width:100%; margin-bottom:10px; height:48px; border-radius:12px; border:1px solid rgba(15,23,36,0.06); background:white;">Log In</button>
+          <button style="width:100%; height:48px; border-radius:12px; background:var(--primary); color:white; font-weight:800;">Join Now</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div class="hero-row">
+        <!-- Text Content -->
+        <div class="col" style="flex:1;">
+          <div class="intro-badge">
+            <span class="size-2" style="background:var(--accent); border-radius:999px; display:inline-block;"></span>
+            <span style="font-weight:800; font-size:0.75rem; letter-spacing:0.12em; color:var(--accent);">Defining the Future</span>
+          </div>
+
+          <h1 class="headline">
+            We Build The <span class="highlight">Builders
+              <svg preserveAspectRatio="none" viewBox="0 0 100 10" aria-hidden="true"><path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="3"></path></svg>
+            </span>
+          </h1>
+
+          <p class="lead">
+            Next Tech Coder bridges the gap between theoretical knowledge and industry application. We are an ecosystem where code meets creativity, empowering the next generation of tech leaders.
+          </p>
+
+          <div class="hero-cta">
+            <button class="btn-cta primary" aria-label="Explore">
+              <span class="material-symbols-outlined" style="font-size:20px">rocket_launch</span>
+              Explore Our Journey
+            </button>
+            <button class="btn-cta ghost" aria-label="Watch">
+              <span class="material-symbols-outlined" style="font-size:20px">play_circle</span>
+              Watch Video
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Image -->
+        <div class="col" style="flex:1; display:flex; justify-content:center; align-items:center;">
+          <div class="hero-image-wrap" role="img" aria-label="Image of students collaborating">
+            <div class="hero-image-overlay" aria-hidden="true"></div>
+            <img alt="Diverse group of students collaborating" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA40usFUj08eOJGNy4MRcXPCVKRfcu3ZiqIAC404o7fmXjxpxf2H0yB0BRnQe1-PsHJoXZbghUHin0k7ZEjYn49ipEWCVhc9bE4WI2tODWsHXmbtFCLJASE_z_To9EOUoGHa_7UEgpT8YWZuG-VkPU9sACAdDKeBXm0UQ7yWu0HuHO-Oh-qfZ9HUYyySjVXT3eh_S_AjD1_brq_eulVf8ZfCaOwuqEegwSQl89sDNON74uO6fhEt4ZZfGEieW9id87WBLPAgTuepg" />
+            <div class="floating-card">
+              <div style="display:flex; gap:12px; align-items:center;">
+                <div style="width:44px; height:44px; border-radius:999px; background:#d1fae5; color:#065f46; display:flex; align-items:center; justify-content:center;">
+                  <span class="material-symbols-outlined">code</span>
+                </div>
+                <div style="line-height:1;">
+                  <div style="font-size:12px; font-weight:800; color:#6b7280; text-transform:uppercase;">Current Session</div>
+                  <div style="font-weight:800; color: #0f1724;">Full Stack Development</div>
+                </div>
+              </div>
+              <div style="background:#ecfdf5; color:#065f46; padding:6px 10px; border-radius:8px; font-weight:800; font-size:0.9rem;">Live</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Strip -->
+    <section class="wrap stats-strip">
+      <div class="stats-grid glass-card">
+        <div class="stat-item">
+          <div class="num" style="color:var(--primary);">5k+</div>
+          <span class="label">Students Trained</span>
+        </div>
+        <div class="stat-item">
+          <div class="num" style="color:var(--accent);">50+</div>
+          <span class="label">Industry Courses</span>
+        </div>
+        <div class="stat-item">
+          <div class="num" style="color:var(--primary);">120+</div>
+          <span class="label">Expert Mentors</span>
+        </div>
+        <div class="stat-item">
+          <div class="num" style="color:var(--accent);">95%</div>
+          <span class="label">Placement Rate</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="wrap" style="padding-top:24px; padding-bottom:8px;">
+      <div class="two-col" style="gap:20px;">
+        <div class="card mission glass-card">
+          <div class="icon-wrap" style="background:rgba(4,125,195,0.08); color:var(--primary); border-radius:16px;">
+            <span class="material-symbols-outlined" style="font-size:28px">flag</span>
+          </div>
+          <h3 style="margin-top:0; margin-bottom:8px;">Our Mission</h3>
+          <p style="color:#475569; margin:0;">
+            To democratize coding education and provide accessible, high-quality technical training to students worldwide. We strive to foster a community of innovators who aren't just consumers of technology, but creators of it.
+          </p>
+        </div>
+
+        <div class="card vision glass-card">
+          <div class="icon-wrap" style="background:rgba(236,120,59,0.08); color:var(--accent); border-radius:16px;">
+            <span class="material-symbols-outlined" style="font-size:28px">visibility</span>
+          </div>
+          <h3 style="margin-top:0; margin-bottom:8px;">Our Vision</h3>
+          <p style="color:#475569; margin:0;">
+            To be the leading global platform for tech education, creating a world where anyone, anywhere can master the skills needed to shape the future of artificial intelligence, web development, and software engineering.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Journey Timeline -->
+    <section class="wrap" style="padding-top:8px; padding-bottom:18px; max-width:1000px;">
+      <div style="text-align:center; margin-bottom:22px;">
+        <div style="color:var(--accent); font-weight:800; text-transform:uppercase; letter-spacing:0.12em; font-size:0.9rem;">History</div>
+        <h2 style="margin:8px 0 0; font-size:1.6rem;">Our Journey Through Time</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="vline" aria-hidden="true"></div>
+
+        <div class="timeline-item">
+          <div class="dot" style="border-color:var(--primary)"></div>
+          <div style="font-size:2rem; font-weight:900; color:rgba(4,125,195,0.08); margin-bottom:6px;">2018</div>
+          <h3>The Inception</h3>
+          <p>Started as a small coding boot camp in a garage with just 5 students and a passion for Python.</p>
+        </div>
+
+        <div class="timeline-item alt">
+          <div class="dot" style="border-color:var(--accent)"></div>
+          <div style="font-size:2rem; font-weight:900; color:rgba(236,120,59,0.08); margin-bottom:6px;">2020</div>
+          <h3>Going Global</h3>
+          <p>Launched our online platform, reaching students across 15 countries and introducing AI curriculum.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="dot" style="border-color:var(--primary)"></div>
+          <div style="font-size:2rem; font-weight:900; color:rgba(4,125,195,0.08); margin-bottom:6px;">2023</div>
+          <h3>Innovation Hub</h3>
+          <p>Established our dedicated Innovation Lab for student projects and partnered with 20+ tech giants.</p>
+        </div>
+
+        <div class="timeline-item alt">
+          <div class="dot" style="border-color:var(--accent)"></div>
+          <div style="font-size:2rem; font-weight:900; color:rgba(236,120,59,0.08); margin-bottom:6px;">Today</div>
+          <h3>Building the Builders</h3>
+          <p>We are constantly evolving, adding courses in Blockchain, Quantum Computing, and more.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meet Our Team -->
+    <section class="wrap" style="padding-top:6px; padding-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:18px; flex-wrap:wrap">
+        <div>
+          <div style="color:var(--primary); font-weight:800; text-transform:uppercase; font-size:0.85rem; letter-spacing:0.12em;">Mentors</div>
+          <h2 style="margin:8px 0 0; font-size:1.6rem;">Meet The Experts</h2>
+          <p style="color:#475569; margin-top:8px; max-width:36ch;">Industry veterans dedicated to your growth.</p>
+        </div>
+        <button style="background:none; border:none; color:var(--primary); font-weight:800; display:flex; gap:8px; align-items:center; cursor:pointer;">
+          View All Mentors <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+      </div>
+
+      <div class="team-grid">
+        <!-- Team Member 1 -->
+        <div class="team-card">
+          <img alt="Portrait of Alex Morgan, Senior AI Engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCNqNOy8nCiw1y1q77XZwVTyV2HzqhvSfmbC-pz0d50EAuGYLeMw5ITfzbto3SCst675VwAXUQWXh5XR0cIZY_L8DslvXqIEWMrdJH2IkRKIxpjYzg1J0NG6Q72vhs8THqQ9RoZGrcM0moTSt-Z3NJzs-nOpzpbDkpMFxW5yBVoL1SSoCJXkGvvFBOnJCmUTanWSmuo_5uEEaQEFbYIXsVkLh6_2fKzRW90ABDrQFXKB-XVscCBj6_KZ1e5CoCvFMm8RRMRr9c9Ls"/>
+          <div class="overlay"></div>
+          <div class="info">
+            <div class="subtitle">AI Specialist</div>
+            <div class="title">Alex Morgan</div>
+            <div style="max-height:0; overflow:hidden;">
+              <p style="color:rgba(255,255,255,0.85); margin-top:8px;">Former Google Brain engineer with a passion for teaching neural networks.</p>
+              <div style="display:flex; gap:12px; margin-top:12px;">
+                <a style="color:white" href="#"><span class="material-symbols-outlined">link</span></a>
+                <a style="color:white" href="#"><span class="material-symbols-outlined">mail</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reuse same structure for 3 more members -->
+        <div class="team-card">
+          <img alt="Portrait of Sarah Chen, Lead Web Developer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGYralqiVdD0eCp0lVnZfSyIwZLVmpHKkKGEwZ0eOqFsjYR0FYpRnzO-rpg7RC8GbUbi9MV93l7KQTr30P6ezTgIg412gc2Zh4h3tJv500f-f-Nx6CtKkDdQ1BR7Qe0zhVV99XyniX0E5MU8ueQpzgEGr_1HgTF1h-FQiKR4w-XEXxaX3zmZ3dpAmuDFWHnX9uBlPaAVBncBrIG7W8f0EHOREwV0jDnK3Y1skjJfIoRgK2qLBOPDq_4zxCagls47ZtmG023ypveeY"/>
+          <div class="overlay"></div>
+          <div class="info">
+            <div class="subtitle" style="color:rgba(255,255,255,0.9)">Lead Developer</div>
+            <div class="title">Sarah Chen</div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <img alt="Portrait of David Kim, Data Science Lead" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjO5fVX_7hfSb5VhBNc2vx8pHERNSNRuGgSwetd39FnAV9QWWuDM5DXpBiWNbUIezdheRWqENl79c5lexZfKkdhcKzVzjg8mERa0PCBALSYja3gwNsl3oeqPtNs6HvYPDP1ogenm1t2la_oZxqUKyA-rowInF9gqOqhL2IGJ-zSHlhI7Dug9OYz_aKEZT6hHVGFXNamKe2_iqEsM-XAIqOGJzIHQ1IU8-I90rXlWJ13-tar3Fo8RJaDQ2jYHQlOwfDpvHOf6TFUFM"/>
+          <div class="overlay"></div>
+          <div class="info">
+            <div class="subtitle">Data Science</div>
+            <div class="title">David Kim</div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <img alt="Portrait of Emily Watson, UX/UI Design Mentor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbIrcjoukYGQdQi8iN6pff0csF6QxJaklVTuf-KbwncJvC3a0T4F_KWdGLbLUzCg1m41TqARScRoiqc2DQhcZPx2SjzPX9Do87Lk2PXlwPAh526NymoJxaTUEjfUPEE4MNG1IHsuNTp5Yy-CcLb7YhR9fX3SUHvvb5wc54wZU8_vYzGXikYQpBzJsbAe_PDu2cflhMLzWXPnbM8sZN_sqCymrxcJEJasQeLaFZfmWzAYXJWsxjqJfnVzmtq0lED99aSbGiWqezuc4"/>
+          <div class="overlay"></div>
+          <div class="info">
+            <div class="subtitle">UX/UI Design</div>
+            <div class="title">Emily Watson</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="wrap cta" style="padding-top:16px;">
+      <div class="cta-inner">
+        <div style="position:absolute; left:-6%; top:-6%; width:160px; height:160px; background:white; opacity:0.05; border-radius:999px; filter:blur(36px)"></div>
+        <div style="position:absolute; right:-6%; bottom:-6%; width:200px; height:200px; background:var(--accent); opacity:0.18; border-radius:999px; filter:blur(36px)"></div>
+
+        <div style="position:relative; z-index:2; max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:16px; align-items:center;">
+          <h2 style="font-weight:900; font-size:1.6rem; margin:0;">Ready to Code Your Future?</h2>
+          <p style="margin:0; color:rgba(255,255,255,0.95); font-size:1.05rem;">Join thousands of students who have transformed their careers with Next Tech Coder. The first step starts here.</p>
+          <div class="cta-buttons" style="display:flex; gap:12px; margin-top:8px;">
+            <button class="btn-large" style="background:var(--accent); color:white; border:none; box-shadow: 0 10px 30px rgba(236,120,59,0.12);">Start Free Trial <span style="margin-left:8px" class="material-symbols-outlined">arrow_forward</span></button>
+            <button class="btn-large" style="background:transparent; color:white; border:2px solid rgba(255,255,255,0.28);">Download Syllabus</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid" style="display:grid; grid-template-columns:repeat(1,1fr); gap:18px;">
+        <div>
+          <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px;">
+            <div class="size-8" style="border-radius:10px; background:rgba(4,125,195,0.08); color:var(--primary); display:flex; align-items:center; justify-content:center;">
+              <span class="material-symbols-outlined">terminal</span>
+            </div>
+            <h2 style="margin:0; font-size:1rem;">Next Tech Coder</h2>
+          </div>
+          <p style="color:#6b7280; font-size:0.95rem; margin:0 0 12px;">
+            Empowering the next generation of tech leaders through accessible, high-quality coding education.
+          </p>
+          <div style="display:flex; gap:12px;">
+            <a style="color:#94a3b8" href="#"><span class="material-symbols-outlined">public</span></a>
+            <a style="color:#94a3b8" href="#"><span class="material-symbols-outlined">thumb_up</span></a>
+            <a style="color:#94a3b8" href="#"><span class="material-symbols-outlined">share</span></a>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 12px;">Platform</h3>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; color:#64748b;">
+            <li><a href="#">Browse Courses</a></li>
+            <li><a href="#">Mentorship</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">For Business</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 12px;">Company</h3>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; color:#64748b;">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 12px;">Stay Updated</h3>
+          <form style="display:flex; flex-direction:column; gap:8px;">
+            <input placeholder="Enter your email" type="email" style="height:40px; padding:8px 12px; border-radius:10px; border:1px solid rgba(15,23,36,0.06); background:#f8fafc" />
+            <button style="height:40px; border-radius:10px; border:none; background:#0f1724; color:white; font-weight:800;">Subscribe</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom" style="margin-top:18px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <p style="color:#94a3b8; font-size:0.9rem; margin:0;">© 2024 Next Tech Coder. All rights reserved.</p>
+        <div style="display:flex; gap:18px;">
+          <a style="color:#64748b" href="#">Privacy Policy</a>
+          <a style="color:#64748b" href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const mobileToggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileClose = document.getElementById('mobile-menu-close');
+      const mobileBackdrop = document.getElementById('mobile-menu-backdrop');
+
+      function openMobileMenu() {
+        mobileMenu.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMobileMenu() {
+        mobileMenu.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+
+      if (mobileToggle) mobileToggle.addEventListener('click', openMobileMenu);
+      if (mobileClose) mobileClose.addEventListener('click', closeMobileMenu);
+      if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeMobileMenu);
+
+      const desktopMenuToggle = document.getElementById('desktop-menu-toggle');
+      if (desktopMenuToggle) {
+        desktopMenuToggle.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          alert('Desktop apps/menu button clicked — hook this to your dropdown.');
+        });
+      }
+
+      const topSearchBtn = document.getElementById('top-search-btn');
+      if (topSearchBtn) {
+        topSearchBtn.addEventListener('click', () => {
+          const q = prompt('Search Next Tech Coder (demo):');
+          if (q) console.log('Searching for:', q);
+        });
+      }
+
+      const notifBtn = document.getElementById('top-notif-btn');
+      if (notifBtn) {
+        notifBtn.addEventListener('click', () => {
+          alert('You have 3 new notifications (demo).');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

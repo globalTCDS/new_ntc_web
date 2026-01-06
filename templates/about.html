@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Next Tech Coder - About Us</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#047dc3",
+            "accent": "#EC783B",
+            "background-light": "#F1F3F7",
+            "background-dark": "#0f1c23",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"],
+            "body": ["Noto Sans", "sans-serif"],
+          },
+          borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+  <style>
+    /* small utility sizes used in markup */
+    .size-2 { width: 0.5rem; height: 0.5rem; }
+    .size-8 { width: 2rem; height: 2rem; }
+    .size-10 { width: 2.5rem; height: 2.5rem; }
+    .size-16 { width: 4rem; height: 4rem; }
+    .size-64 { width: 16rem; height: 16rem; }
+    .size-80 { width: 20rem; height: 20rem; }
+
+    /* Custom scrollbar for webkit */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #F1F3F7; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Subtle background animation pattern */
+    .bg-pattern {
+      background-image: radial-gradient(#047dc3 0.5px, transparent 0.5px), radial-gradient(#047dc3 0.5px, #F1F3F7 0.5px);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      opacity: 0.05;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .glass-header {
+      background: rgba(241, 243, 247, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* small accessible focus outline for icon buttons */
+    .icon-btn:focus { outline: 3px solid rgba(4,125,195,0.12); outline-offset: 2px; border-radius: 0.75rem; }
+  </style>
+</head>
+<body class="bg-background-light text-slate-900 font-display selection:bg-primary selection:text-white overflow-x-hidden">
+  <div class="fixed inset-0 pointer-events-none z-0 bg-pattern"></div>
+
+  <!-- Top Navigation -->
+  <header class="glass-header sticky top-0 z-50 w-full border-b border-white/50">
+    <div class="px-4 md:px-10 py-4 max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3 text-slate-900">
+        <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+          <span class="material-symbols-outlined text-3xl">terminal</span>
+        </div>
+        <h2 class="text-xl md:text-2xl font-bold tracking-tight">Next Tech Coder</h2>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="text-slate-600 hover:text-primary font-medium text-sm transition-colors" href="/">Home</a>
+        <a class="text-slate-600 hover:text-primary font-medium text-sm transition-colors" href="courses">Courses</a>
+        <a class="text-slate-600 hover:text-primary font-medium text-sm transition-colors" href="francy">Francy</a>
+        <a class="text-primary font-bold text-sm" href="about">About Us</a>
+        <a class="text-slate-600 hover:text-primary font-medium text-sm transition-colors" href="contact">Contact Us</a>
+      </nav>
+
+      <!-- Top three menu buttons + auth -->
+      <div class="flex items-center gap-3">
+        <!-- Icon buttons group (the "top three menu buttons") -->
+        <div class="flex items-center gap-2 mr-1">
+          <!-- Search -->
+          <button id="top-search-btn" aria-label="Search" class="icon-btn hidden md:inline-flex items-center justify-center rounded-lg h-10 w-10 text-slate-700 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+
+          <!-- Notifications -->
+          <button id="top-notif-btn" aria-label="Notifications" class="icon-btn hidden md:inline-flex items-center justify-center rounded-lg h-10 w-10 text-slate-700 hover:text-primary transition-colors relative">
+            <span class="material-symbols-outlined">notifications</span>
+            <!-- little badge -->
+            <span class="absolute -top-0.5 -right-0.5 bg-accent text-white rounded-full text-[10px] px-1 leading-none">3</span>
+          </button>
+
+          <!-- Mobile Menu (hamburger) - visible on small screens -->
+          <button id="mobile-menu-toggle" aria-label="Open menu" class="icon-btn md:hidden inline-flex items-center justify-center rounded-lg h-10 w-10 text-slate-700 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+
+          <!-- Desktop compact menu button (hamburger) - shown on md+ beside auth -->
+          <button id="desktop-menu-toggle" aria-label="Menu" class="icon-btn hidden md:inline-flex items-center justify-center rounded-lg h-10 w-10 text-slate-700 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined">apps</span>
+          </button>
+        </div>
+
+        <!-- Auth buttons -->
+        <div class="flex gap-3">
+          <button class="hidden md:flex items-center justify-center rounded-xl h-10 px-6 text-slate-700 hover:text-primary font-bold text-sm transition-colors">
+            Log In
+          </button>
+          <!-- UPDATED: hide top-bar Join Now on small screens; show on md+ only -->
+          <button class="hidden md:flex items-center justify-center rounded-xl h-10 px-6 bg-primary hover:bg-sky-600 text-white shadow-lg shadow-primary/30 text-sm font-bold transition-all transform hover:scale-105">
+            Join Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu (off-canvas) -->
+    <div id="mobile-menu" class="md:hidden fixed inset-0 z-60 hidden">
+      <div id="mobile-menu-backdrop" class="absolute inset-0 bg-black/40" tabindex="-1"></div>
+      <div class="absolute top-0 right-0 w-80 max-w-full h-full bg-white p-6 shadow-2xl overflow-y-auto">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center justify-center size-8 rounded-lg bg-primary/10 text-primary">
+              <span class="material-symbols-outlined">terminal</span>
+            </div>
+            <h3 class="font-bold">Next Tech Coder</h3>
+          </div>
+          <button id="mobile-menu-close" aria-label="Close menu" class="icon-btn inline-flex items-center justify-center rounded-lg h-10 w-10 text-slate-700 hover:text-primary">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <nav class="flex flex-col gap-3">
+          <a class="p-3 rounded-lg hover:bg-slate-50 font-medium" href="#">Home</a>
+          <a class="p-3 rounded-lg hover:bg-slate-50 font-medium" href="#">Courses</a>
+          <a class="p-3 rounded-lg hover:bg-slate-50 font-medium" href="#">About Us</a>
+          <a class="p-3 rounded-lg hover:bg-slate-50 font-medium" href="#">Blog</a>
+          <a class="p-3 rounded-lg hover:bg-slate-50 font-medium" href="#">Mentorship</a>
+          <a class="p-3 rounded-lg hover:bg-slate-50 font-medium" href="#">Pricing</a>
+        </nav>
+
+        <div class="mt-6 border-t pt-6">
+          <button class="w-full mb-3 h-12 rounded-lg border border-slate-200">Log In</button>
+          <button class="w-full h-12 rounded-lg bg-primary text-white font-bold">Join Now</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 flex flex-col items-center w-full">
+    <!-- Hero Section -->
+    <section class="w-full px-4 md:px-10 py-12 md:py-20 max-w-7xl">
+      <div class="flex flex-col-reverse md:flex-row items-center gap-12 md:gap-20">
+        <!-- Text Content -->
+        <div class="flex-1 flex flex-col gap-6 text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 w-fit">
+            <span class="size-2 rounded-full bg-accent animate-pulse"></span>
+            <span class="text-accent text-xs font-bold uppercase tracking-wider">Defining the Future</span>
+          </div>
+          <h1 class="text-4xl md:text-6xl font-black leading-[1.1] tracking-tight text-slate-900">
+            We Build The <span class="text-primary relative inline-block">Builders
+              <svg class="absolute -bottom-2 left-0 w-full h-3 text-accent opacity-60" preserveAspectRatio="none" viewBox="0 0 100 10"><path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="3"></path></svg>
+            </span>
+          </h1>
+          <p class="text-slate-600 text-lg md:text-xl font-body leading-relaxed max-w-xl">
+            Next Tech Coder bridges the gap between theoretical knowledge and industry application. We are an ecosystem where code meets creativity, empowering the next generation of tech leaders.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
+            <button class="flex items-center gap-2 h-12 px-8 bg-primary hover:bg-sky-600 text-white rounded-xl font-bold shadow-lg shadow-primary/30 transition-all transform hover:-translate-y-1">
+              <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+              Explore Our Journey
+            </button>
+            <button class="flex items-center gap-2 h-12 px-8 bg-white border border-slate-200 hover:border-accent/50 text-slate-700 hover:text-accent rounded-xl font-bold transition-all hover:bg-orange-50">
+              <span class="material-symbols-outlined text-[20px]">play_circle</span>
+              Watch Video
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Image -->
+        <div class="flex-1 w-full max-w-[600px]">
+          <div class="relative w-full aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/10 group">
+            <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/10 mix-blend-overlay z-10"></div>
+            <img alt="Diverse group of students collaborating on code in a modern bright office environment" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA40usFUj08eOJGNy4MRcXPCVKRfcu3ZiqIAC404o7fmXjxpxf2H0yB0BRnQe1-PsHJoXZbghUHin0k7ZEjYn49ipEWCVhc9bE4WI2tODWsHXmbtFCLJASE_z_To9EOUoGHa_7UEgpT8YWZuG-VkPU9sACAdDKeBXm0UQ7yWu0HuHO-Oh-qfZ9HUYyySjVXT3eh_S_AjD1_brq_eulVf8ZfCaOwuqEegwSQl89sDNON74uO6fhEt4ZZfGEieW9id87WBLPAgTuepg"/>
+            <!-- Floating Glass Card Effect -->
+            <div class="absolute bottom-6 left-6 right-6 p-4 glass-card rounded-xl z-20 flex items-center justify-between animate-bounce" style="animation-duration: 3s;">
+              <div class="flex items-center gap-3">
+                <div class="size-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                  <span class="material-symbols-outlined">code</span>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 font-bold uppercase">Current Session</p>
+                  <p class="text-sm font-bold text-slate-900">Full Stack Development</p>
+                </div>
+              </div>
+              <span class="text-green-600 font-bold text-sm bg-green-50 px-2 py-1 rounded">Live</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Strip -->
+    <section class="w-full px-4 md:px-10 py-10 max-w-7xl">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 glass-card rounded-2xl p-8 shadow-sm">
+        <div class="flex flex-col items-center text-center gap-1">
+          <span class="text-4xl font-black text-primary">5k+</span>
+          <span class="text-sm font-bold text-slate-500 uppercase tracking-wide">Students Trained</span>
+        </div>
+        <div class="flex flex-col items-center text-center gap-1">
+          <span class="text-4xl font-black text-accent">50+</span>
+          <span class="text-sm font-bold text-slate-500 uppercase tracking-wide">Industry Courses</span>
+        </div>
+        <div class="flex flex-col items-center text-center gap-1">
+          <span class="text-4xl font-black text-primary">120+</span>
+          <span class="text-sm font-bold text-slate-500 uppercase tracking-wide">Expert Mentors</span>
+        </div>
+        <div class="flex flex-col items-center text-center gap-1">
+          <span class="text-4xl font-black text-accent">95%</span>
+          <span class="text-sm font-bold text-slate-500 uppercase tracking-wide">Placement Rate</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="w-full px-4 md:px-10 py-16 md:py-24 max-w-7xl relative">
+      <div class="flex flex-col md:flex-row gap-8 md:gap-12">
+        <!-- Mission -->
+        <div class="flex-1 group">
+          <div class="glass-card p-8 md:p-10 rounded-2xl h-full transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 border-t-4 border-t-primary">
+            <div class="size-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-4xl">flag</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 text-slate-900">Our Mission</h3>
+            <p class="text-slate-600 leading-relaxed font-body">
+              To democratize coding education and provide accessible, high-quality technical training to students worldwide. We strive to foster a community of innovators who aren't just consumers of technology, but creators of it.
+            </p>
+          </div>
+        </div>
+        <!-- Vision -->
+        <div class="flex-1 group">
+          <div class="glass-card p-8 md:p-10 rounded-2xl h-full transition-all duration-300 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-2 border-t-4 border-t-accent">
+            <div class="size-16 rounded-2xl bg-orange-100 flex items-center justify-center text-accent mb-6 group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-4xl">visibility</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 text-slate-900">Our Vision</h3>
+            <p class="text-slate-600 leading-relaxed font-body">
+              To be the leading global platform for tech education, creating a world where anyone, anywhere can master the skills needed to shape the future of artificial intelligence, web development, and software engineering.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- (the rest of your content remains unchanged; omitted here for brevity in this snippet) -->
+    <!-- Our Journey Timeline -->
+    <!-- Our Journey Timeline -->
+    <section class="w-full px-4 md:px-10 py-16 md:py-24 max-w-5xl">
+      <div class="text-center mb-16">
+        <span class="text-accent font-bold text-sm tracking-widest uppercase mb-2 block">History</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Our Journey Through Time</h2>
+      </div>
+
+      <div class="relative">
+        <!-- Vertical Line -->
+        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent to-primary opacity-30 md:-translate-x-1/2 rounded-full"></div>
+
+        <!-- Timeline Item 1 -->
+        <div class="relative flex flex-col md:flex-row items-center justify-between mb-12 md:mb-20 group">
+          <div class="md:w-5/12 order-2 md:order-1 pl-12 md:pl-0 md:pr-10 text-left md:text-right">
+            <span class="text-4xl font-black text-primary/20 block mb-2 group-hover:text-primary transition-colors duration-500">2018</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">The Inception</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Started as a small coding boot camp in a garage with just 5 students and a passion for Python.</p>
+          </div>
+          <div class="absolute left-4 md:left-1/2 top-0 md:top-2 w-4 h-4 bg-white border-4 border-primary rounded-full md:-translate-x-1/2 shadow-lg z-10"></div>
+          <div class="md:w-5/12 order-3 md:order-2 hidden md:block pl-10">
+            <div class="h-32 w-full rounded-xl bg-slate-200 overflow-hidden" data-alt="Abstract minimalist line art representing a startup beginning">
+              <img alt="Small group of people brainstorming around a table" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE9qBmAlNOFozqamVnUIkhjxrTZl4xalopLf4Y6ogiBjEiqHxgDpMQdgVdU4nhqj-aG3E0HGFUtbEJPoe313sElMHXMmG4IP0BgCx5tnzQzJohEGR-Mfa4CIlY7lMxJAiUOM4BRYRAkAmfv14Oi6tFqBteoftFUYsynl_AlzNJIXrhDkldOZ_uTulUcEop80F_l5ek_hHB1KJDP2synEApOZul07I1co5jYtx_gXvNmLCoyl4Y5xvb5HMHe8Vmc_b4Db8oicA1jdQ"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Item 2 -->
+        <div class="relative flex flex-col md:flex-row items-center justify-between mb-12 md:mb-20 group">
+          <div class="md:w-5/12 order-3 md:order-1 hidden md:block pr-10">
+            <div class="h-32 w-full rounded-xl bg-slate-200 overflow-hidden" data-alt="Abstract network connections growing">
+              <img alt="Hands typing on laptop keyboards in a workshop" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI98oW-59Cf4trxodXNI2M5Lq9LhWpzEQc5M9A11AmxYPb-MJwmVPiOKGY4DUd4YVHO1T9grEUM5DtwmMeQBr6R6qDtgcmMf-YAtc7wSsmC2eruDc9x-zfSGFkWbpran764771Ysny0rDarXo1eVp4uiuvGRNcwEfv1pe3bID1KL1Jmit6jZLglYd8MRATSfkzVUijSf0jUiOTvzr-XzVDRUQxOXPfMFfqxfaIwoGSNnRVj5qNNrfAzUtAS17LY0Qx-7txBmyUX8s"/>
+            </div>
+          </div>
+
+          <div class="absolute left-4 md:left-1/2 top-0 md:top-2 w-4 h-4 bg-white border-4 border-accent rounded-full md:-translate-x-1/2 shadow-lg z-10"></div>
+          <div class="md:w-5/12 order-2 md:order-2 pl-12 md:pl-10 text-left">
+            <span class="text-4xl font-black text-accent/20 block mb-2 group-hover:text-accent transition-colors duration-500">2020</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Going Global</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Launched our online platform, reaching students across 15 countries and introducing AI curriculum.</p>
+          </div>
+        </div>
+
+        <!-- Timeline Item 3 -->
+        <div class="relative flex flex-col md:flex-row items-center justify-between mb-12 md:mb-20 group">
+          <div class="md:w-5/12 order-2 md:order-1 pl-12 md:pl-0 md:pr-10 text-left md:text-right">
+            <span class="text-4xl font-black text-primary/20 block mb-2 group-hover:text-primary transition-colors duration-500">2023</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Innovation Hub</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Established our dedicated Innovation Lab for student projects and partnered with 20+ tech giants.</p>
+          </div>
+          <div class="absolute left-4 md:left-1/2 top-0 md:top-2 w-4 h-4 bg-white border-4 border-primary rounded-full md:-translate-x-1/2 shadow-lg z-10"></div>
+          <div class="md:w-5/12 order-3 md:order-2 hidden md:block pl-10">
+            <div class="h-32 w-full rounded-xl bg-slate-200 overflow-hidden" data-alt="Futuristic blue light data visualization">
+              <img alt="Students presenting project on a screen" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZjo7EZQ7evrtXQn9neMUkkY3gN4_idFEIPCKWmnTFHiIpCnxGwwAcIz-dLxW9fFnWLf4RItV6HZ1tclyjIex6yoXMDV-cp68rNNvmzbsly5GG35wD2lRArKAKAPRZzN0Rs-BYoCSo6I3ohINJBDd-sq5KLiCqmbnEpJ-1fMsCPlrovA8PilZnCRuO4T_wCQmnK5_Q1NHU2MtZ6CRw4MsUZrEm2IuEMyVJO2FdEOI2Okdfe0QSw_JTGHtXgWS4R4W-VR8YqxlQOzc"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Item 4 -->
+        <div class="relative flex flex-col md:flex-row items-center justify-between group">
+          <div class="md:w-5/12 order-3 md:order-1 hidden md:block pr-10">
+            <div class="h-32 w-full rounded-xl bg-slate-200 overflow-hidden" data-alt="Abstract concept of future technology">
+              <img alt="Globe network hologram with futuristic interface" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIyytmvhHyfF93mwZCjXzQZFLn02VdiFxPKUxwNV8ks73pAhpxl_-FjWCn2q_ezv_1cg14jvyXcjYOiXXEtUJAZMIi1_TD7Mzt6NGnvuoxSLVX01IzQ-C6C4zse4UQFea5sfiLmKL_80sM6akbstnXiDb8HF9JFTllrfofr5D_cCB5d5Xw0pNY22NJDB6ya9gNNlFBlUCWvyZMX5P2tHQOKO1_6W61XDw_w9loTBnzHnRiyq3OnHSdqm6YllxhO673dQrSlGM6Oyw"/>
+            </div>
+          </div>
+
+          <div class="absolute left-4 md:left-1/2 top-0 md:top-2 w-4 h-4 bg-accent border-2 border-white rounded-full md:-translate-x-1/2 shadow-lg z-10 animate-ping"></div>
+          <div class="absolute left-4 md:left-1/2 top-0 md:top-2 w-4 h-4 bg-accent border-2 border-white rounded-full md:-translate-x-1/2 shadow-lg z-10"></div>
+
+          <div class="md:w-5/12 order-2 md:order-2 pl-12 md:pl-10 text-left">
+            <span class="text-4xl font-black text-accent/20 block mb-2 group-hover:text-accent transition-colors duration-500">Today</span>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Building the Builders</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">We are constantly evolving, adding courses in Blockchain, Quantum Computing, and more.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meet Our Team -->
+<section class="w-full px-4 md:px-10 py-16 md:py-24 max-w-7xl">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<span class="text-primary font-bold text-sm tracking-widest uppercase mb-2 block">Mentors</span>
+<h2 class="text-3xl md:text-4xl font-bold text-slate-900">Meet The Experts</h2>
+<p class="text-slate-600 mt-2 max-w-md">Industry veterans dedicated to your growth.</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                    View All Mentors <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Team Member 1 -->
+<div class="group relative rounded-2xl overflow-hidden h-[360px] cursor-pointer shadow-md hover:shadow-xl transition-all duration-300">
+<img alt="Portrait of Alex Morgan, Senior AI Engineer" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCNqNOy8nCiw1y1q77XZwVTyV2HzqhvSfmbC-pz0d50EAuGYLeMw5ITfzbto3SCst675VwAXUQWXh5XR0cIZY_L8DslvXqIEWMrdJH2IkRKIxpjYzg1J0NG6Q72vhs8THqQ9RoZGrcM0moTSt-Z3NJzs-nOpzpbDkpMFxW5yBVoL1SSoCJXkGvvFBOnJCmUTanWSmuo_5uEEaQEFbYIXsVkLh6_2fKzRW90ABDrQFXKB-XVscCBj6_KZ1e5CoCvFMm8RRMRr9c9Ls"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+<span class="text-accent text-xs font-bold uppercase tracking-wider mb-1 block">AI Specialist</span>
+<h3 class="text-white text-xl font-bold">Alex Morgan</h3>
+<div class="h-0 group-hover:h-auto overflow-hidden transition-all duration-300">
+<p class="text-slate-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">Former Google Brain engineer with a passion for teaching neural networks.</p>
+<div class="flex gap-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">link</span></a>
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">mail</span></a>
+</div>
+</div>
+</div>
+</div>
+<!-- Team Member 2 -->
+<div class="group relative rounded-2xl overflow-hidden h-[360px] cursor-pointer shadow-md hover:shadow-xl transition-all duration-300">
+<img alt="Portrait of Sarah Chen, Lead Web Developer" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGYralqiVdD0eCp0lVnZfSyIwZLVmpHKkKGEwZ0eOqFsjYR0FYpRnzO-rpg7RC8GbUbi9MV93l7KQTr30P6ezTgIg412gc2Zh4h3tJv500f-f-Nx6CtKkDdQ1BR7Qe0zhVV99XyniX0E5MU8ueQpzgEGr_1HgTF1h-FQiKR4w-XEXxaX3zmZ3dpAmuDFWHnX9uBlPaAVBncBrIG7W8f0EHOREwV0jDnK3Y1skjJfIoRgK2qLBOPDq_4zxCagls47ZtmG023ypveeY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-1 block">Lead Developer</span>
+<h3 class="text-white text-xl font-bold">Sarah Chen</h3>
+<div class="h-0 group-hover:h-auto overflow-hidden transition-all duration-300">
+<p class="text-slate-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">Full-stack wizard contributing to major open source React libraries.</p>
+<div class="flex gap-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">link</span></a>
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">mail</span></a>
+</div>
+</div>
+</div>
+</div>
+<!-- Team Member 3 -->
+<div class="group relative rounded-2xl overflow-hidden h-[360px] cursor-pointer shadow-md hover:shadow-xl transition-all duration-300">
+<img alt="Portrait of David Kim, Data Science Lead" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjO5fVX_7hfSb5VhBNc2vx8pHERNSNRuGgSwetd39FnAV9QWWuDM5DXpBiWNbUIezdheRWqENl79c5lexZfKkdhcKzVzjg8mERa0PCBALSYja3gwNsl3oeqPtNs6HvYPDP1ogenm1t2la_oZxqUKyA-rowInF9gqOqhL2IGJ-zSHlhI7Dug9OYz_aKEZT6hHVGFXNamKe2_iqEsM-XAIqOGJzIHQ1IU8-I90rXlWJ13-tar3Fo8RJaDQ2jYHQlOwfDpvHOf6TFUFM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+<span class="text-accent text-xs font-bold uppercase tracking-wider mb-1 block">Data Science</span>
+<h3 class="text-white text-xl font-bold">David Kim</h3>
+<div class="h-0 group-hover:h-auto overflow-hidden transition-all duration-300">
+<p class="text-slate-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">PhD in Statistics, specializing in Big Data analytics and visualization.</p>
+<div class="flex gap-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">link</span></a>
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">mail</span></a>
+</div>
+</div>
+</div>
+</div>
+<!-- Team Member 4 -->
+<div class="group relative rounded-2xl overflow-hidden h-[360px] cursor-pointer shadow-md hover:shadow-xl transition-all duration-300">
+<img alt="Portrait of Emily Watson, UX/UI Design Mentor" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbIrcjoukYGQdQi8iN6pff0csF6QxJaklVTuf-KbwncJvC3a0T4F_KWdGLbLUzCg1m41TqARScRoiqc2DQhcZPx2SjzPX9Do87Lk2PXlwPAh526NymoJxaTUEjfUPEE4MNG1IHsuNTp5Yy-CcLb7YhR9fX3SUHvvb5wc54wZU8_vYzGXikYQpBzJsbAe_PDu2cflhMLzWXPnbM8sZN_sqCymrxcJEJasQeLaFZfmWzAYXJWsxjqJfnVzmtq0lED99aSbGiWqezuc4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-1 block">UX/UI Design</span>
+<h3 class="text-white text-xl font-bold">Emily Watson</h3>
+<div class="h-0 group-hover:h-auto overflow-hidden transition-all duration-300">
+<p class="text-slate-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">Award-winning designer teaching the art of user-centric digital experiences.</p>
+<div class="flex gap-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">link</span></a>
+<a class="text-white hover:text-primary" href="#"><span class="material-symbols-outlined text-sm">mail</span></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+    <!-- CTA Section -->
+    <section class="w-full px-4 md:px-10 py-16 max-w-7xl">
+      <div class="rounded-3xl bg-gradient-to-br from-primary to-blue-600 p-8 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 size-64 bg-white opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 size-80 bg-accent opacity-20 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
+        <div class="relative z-10 max-w-2xl mx-auto flex flex-col items-center gap-6">
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Ready to Code Your Future?</h2>
+          <p class="text-blue-100 text-lg md:text-xl font-body">Join thousands of students who have transformed their careers with Next Tech Coder. The first step starts here.</p>
+          <div class="flex flex-col sm:flex-row gap-4 mt-4">
+            <button class="bg-accent hover:bg-orange-600 text-white font-bold h-14 px-8 rounded-xl shadow-lg shadow-orange-900/20 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              Start Free Trial <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+            <button class="bg-transparent border-2 border-white/30 hover:bg-white/10 text-white font-bold h-14 px-8 rounded-xl transition-all flex items-center justify-center">
+              Download Syllabus
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full bg-white border-t border-slate-200 pt-16 pb-8">
+    <div class="px-4 md:px-10 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="col-span-1 md:col-span-1">
+          <div class="flex items-center gap-2 text-slate-900 mb-4">
+            <div class="flex items-center justify-center size-8 rounded bg-primary/10 text-primary">
+              <span class="material-symbols-outlined text-xl">terminal</span>
+            </div>
+            <h2 class="text-lg font-bold">Next Tech Coder</h2>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed mb-6">
+            Empowering the next generation of tech leaders through accessible, high-quality coding education.
+          </p>
+          <div class="flex gap-4">
+            <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+            <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">thumb_up</span></a>
+            <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-900 mb-4">Platform</h3>
+          <ul class="flex flex-col gap-3 text-sm text-slate-600">
+            <li><a class="hover:text-primary transition-colors" href="#">Browse Courses</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Mentorship</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Pricing</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">For Business</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-900 mb-4">Company</h3>
+          <ul class="flex flex-col gap-3 text-sm text-slate-600">
+            <li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-900 mb-4">Stay Updated</h3>
+          <form class="flex flex-col gap-3">
+            <input class="h-10 px-4 rounded-lg bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Enter your email" type="email"/>
+            <button class="h-10 px-4 rounded-lg bg-slate-900 text-white text-sm font-bold hover:bg-slate-800 transition-colors">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-slate-400 text-xs">© 2024 Next Tech Coder. All rights reserved.</p>
+        <div class="flex gap-6 text-slate-400 text-xs">
+          <a class="hover:text-slate-600" href="#">Privacy Policy</a>
+          <a class="hover:text-slate-600" href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Small script to handle menu toggles -->
+  <script>
+    (function () {
+      const mobileToggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileClose = document.getElementById('mobile-menu-close');
+      const mobileBackdrop = document.getElementById('mobile-menu-backdrop');
+
+      function openMobileMenu() {
+        mobileMenu.classList.remove('hidden');
+        // trap focus, etc. (simple)
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMobileMenu() {
+        mobileMenu.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      if (mobileToggle) mobileToggle.addEventListener('click', openMobileMenu);
+      if (mobileClose) mobileClose.addEventListener('click', closeMobileMenu);
+      if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeMobileMenu);
+
+      // Desktop small menu toggle (you can hook this to an actions panel if needed)
+      const desktopMenuToggle = document.getElementById('desktop-menu-toggle');
+      if (desktopMenuToggle) {
+        desktopMenuToggle.addEventListener('click', () => {
+          // simple demo behavior: scroll to top and focus on nav (replace with your action)
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          // optionally open a small menu or dropdown
+          alert('Desktop apps/menu button clicked — hook this to your dropdown.');
+        });
+      }
+
+      // Search button demo (open small search prompt)
+      const topSearchBtn = document.getElementById('top-search-btn');
+      if (topSearchBtn) {
+        topSearchBtn.addEventListener('click', () => {
+          const q = prompt('Search Next Tech Coder (demo):');
+          if (q) {
+            // Hook to actual search page; for demo we'll just console log
+            console.log('Searching for:', q);
+          }
+        });
+      }
+
+      // Notifications demo
+      const notifBtn = document.getElementById('top-notif-btn');
+      if (notifBtn) {
+        notifBtn.addEventListener('click', () => {
+          alert('You have 3 new notifications (demo).');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

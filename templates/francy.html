@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Next Tech Coder - Franchise Opportunity</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#047dc3",
+                        "accent": "#EC783B",
+                        "background-light": "#F1F3F7",
+                        "background-dark": "#0f1c23",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    backgroundImage: {
+                        'neuron-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23047dc3' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .bento-card {
+            background: #ffffff;
+            border: 1px solid #e6eff4;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Hamburger bar animation */
+        .hamburger {
+            width: 28px;
+            height: 20px;
+            display: inline-block;
+            position: relative;
+        }
+        .hamburger span {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: transform .28s cubic-bezier(.2,.9,.3,1), opacity .2s, top .28s;
+        }
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 9px; }
+        .hamburger span:nth-child(3) { top: 18px; }
+        /* When open */
+        .menu-open .hamburger span:nth-child(1) {
+            top: 9px;
+            transform: rotate(45deg);
+        }
+        .menu-open .hamburger span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(.1);
+        }
+        .menu-open .hamburger span:nth-child(3) {
+            top: 9px;
+            transform: rotate(-45deg);
+        }
+
+        /* Mobile menu animation helpers */
+        .mobile-menu {
+            transform: translateY(-8%) scale(.98);
+            opacity: 0;
+            transition: transform .28s cubic-bezier(.2,.9,.3,1), opacity .28s;
+        }
+        .mobile-menu.open {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        /* small subtle backdrop blur for mobile overlay on supported browsers */
+        .mobile-overlay {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 font-display selection:bg-primary/20">
+<!-- Navigation -->
+<header class="sticky top-0 z-50 w-full glass-card border-b border-white/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded bg-primary text-white flex items-center justify-center">
+          <span class="material-symbols-outlined">code</span>
+        </div>
+        <span class="text-xl font-bold tracking-tight text-slate-900">Next Tech Coder</span>
+      </div>
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex gap-8">
+        <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="/">Home</a>
+        <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="courses">Courses</a>
+        <a class="text-sm font-medium text-primary hover:text-primary transition-colors" href="francy">Franchise</a>
+        <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="about">About US</a>
+        <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="contact">Contact US</a>
+      </nav>
+      <!-- CTA -->
+      <div class="flex items-center gap-4">
+        <a class="hidden sm:flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-primary" href="#">
+          <span class="material-symbols-outlined text-[20px]">login</span>
+                    Partner Login
+        </a>
+
+        <button class="hidden sm:inline-block bg-primary hover:bg-sky-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors shadow-lg shadow-primary/20">
+                    Apply Now
+        </button>
+
+        <!-- Mobile hamburger button (visible on small screens) -->
+        <button id="mobileMenuBtn" aria-controls="mobileMenu" aria-expanded="false" class="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-primary text-slate-800" title="Open menu">
+          <div class="hamburger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay (keeps all features; shows nav + CTAs) -->
+  <div id="mobileMenuOverlay" class="hidden fixed inset-0 z-40 mobile-overlay">
+    <!-- clickable backdrop -->
+    <button id="mobileBackdrop" class="absolute inset-0 w-full h-full bg-black/30" aria-hidden="true"></button>
+
+    <!-- sliding panel from right -->
+    <aside id="mobileMenu" class="mobile-menu open:hidden absolute top-0 right-0 w-full max-w-xs h-full bg-white shadow-2xl p-6 transform transition ease-in-out" aria-hidden="true" aria-labelledby="mobileMenuBtn">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded bg-primary text-white flex items-center justify-center">
+            <span class="material-symbols-outlined">code</span>
+          </div>
+          <span class="text-lg font-bold">NTC</span>
+        </div>
+        <button id="mobileCloseBtn" class="p-2 rounded focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Close menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="flex flex-col gap-4 mb-6" aria-label="Mobile navigation">
+        <a href="#" class="text-base font-medium text-slate-800 hover:text-primary transition-colors">Home</a>
+        <a href="#" class="text-base font-medium text-slate-800 hover:text-primary transition-colors">Courses</a>
+        <a href="#" class="text-base font-medium text-primary hover:text-primary transition-colors">Franchise</a>
+        <a href="#" class="text-base font-medium text-slate-800 hover:text-primary transition-colors">About</a>
+      </nav>
+
+      <div class="flex flex-col gap-3">
+        <a href="#" class="w-full text-center bg-primary hover:bg-sky-700 text-white font-bold px-4 py-3 rounded-lg transition-all">Apply for Franchise</a>
+        <a href="#" class="w-full text-center border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-4 py-3 rounded-lg transition-all">Download Brochure</a>
+        <a href="#" class="w-full text-center text-slate-700 underline font-medium px-4 py-3 rounded-lg transition-all">Partner Login</a>
+      </div>
+
+      <div class="mt-6 text-sm text-slate-500">
+        <p>Contact: partner@ntc.com</p>
+        <p class="mt-1">Phone: +1 (555) 123-4567</p>
+      </div>
+    </aside>
+  </div>
+</header>
+<!-- Hero Section -->
+<section class="relative pt-20 pb-32 overflow-hidden">
+<!-- Background Decor -->
+<div class="absolute inset-0 bg-neuron-pattern opacity-60 pointer-events-none"></div>
+<div class="absolute top-20 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -z-10 animate-float"></div>
+<div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl -z-10 animate-float" style="animation-delay: 2s;"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="flex flex-col gap-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 w-fit">
+<span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+<span class="text-xs font-bold text-accent uppercase tracking-wider">New Locations Opening</span>
+</div>
+<h1 class="text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-slate-900">
+                    Partner with the <span class="text-primary">Future</span> of Education
+                </h1>
+<p class="text-lg text-slate-600 max-w-xl leading-relaxed">
+                    Empower the next generation of tech leaders. Build a profitable business with NTC's proven franchise model in AI, Coding, and Robotics education.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary hover:bg-sky-700 text-white text-base font-bold px-8 py-4 rounded-xl transition-all shadow-xl shadow-primary/25 hover:shadow-primary/40 flex items-center gap-2">
+<span>Apply for Franchise</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<button class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-base font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">download</span>
+<span>Download Brochure</span>
+</button>
+</div>
+<div class="flex items-center gap-4 text-sm text-slate-500 pt-4">
+<div class="flex -space-x-2">
+<img alt="Partner Avatar" class="w-8 h-8 rounded-full border-2 border-white" data-alt="Portrait of a smiling young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA-e6QkK88gs-Iezfnw2owBaOfk_S_8d1kLY_HKE3Pa1EZlk8Oi8fWLoMP6dgHxd4WNlusOThDq0daieIb__AIBFd0Itw7SE5Rru5sNMMiChaCdT_iYPKq3Zu7noJ9PXx8X2jT0UiP6QUqPThd11dPw8V_CebLwstkIV5Ook-oaSp0FQGhscwViLTNnQxn5o8VEy9AaZpSrO358-CSjPfkF0Y-uFVom5dVyaQMKXlw43dfLOqvmbEQktTVkEToUj_FgUvL_7hLayE"/>
+<img alt="Partner Avatar" class="w-8 h-8 rounded-full border-2 border-white" data-alt="Portrait of a smiling young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbtpWzgMJwFA3C6tn4CQ3W9HG9SfBwxk6qnNTwkIRgvfm4GyzOFJOKCJghfcfmblvNMDIEtRdMPmpNGRQgmqlm-Ies-Bc0I_Egjylle8LgiB_oHpkf-hRhIkAtA4CNOgVhVWjFIteUPKjSDVED70O6a3da1DHCKjqyxg_rRCpv0jb8BPXxG1qDBlhlVLL4zqoRglftrQ1kMPjob9gRbiNUvOeQ0gCd6oa-pQPk75UswrnPPv4r9uqTRGBNW16IjFdZxnIHwynylAY"/>
+<img alt="Partner Avatar" class="w-8 h-8 rounded-full border-2 border-white" data-alt="Portrait of a smiling man with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbuPUy-7Kbw06jEIy9dZVI9ImyotP92jb9qP32Fblo17BRvvkW6ZeEQUzMfVAwQ1P5mzLaI_ViBSq6NvKiQQR8J29--z6tcy2G6BcXCMP3uc3N-iePMRuvgVk-Y37fkcuW2gL1Sydd6KoZ97go30dKdCmIDzfTDW21vgdRQymb1EzSYkZ1K5sJEQjxTgntJZctx6fEf15_3UZBn3b17cUJ5jD6Cj8xA1LzRJmL8b8xXWQnoapqBFqSuHjSteR6kUJTTkZLS9xy63Q"/>
+</div>
+<p>Join <span class="font-bold text-slate-900">50+ partners</span> worldwide</p>
+</div>
+</div>
+<div class="relative lg:h-[600px] flex items-center justify-center">
+<!-- Abstract tech composition -->
+<div class="relative z-10 w-full aspect-square max-w-[500px]">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-2xl rotate-3"></div>
+<img alt="Coding Class" class="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-2xl -rotate-2" data-alt="Group of students working on computers in a modern classroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXbDhbADx3xCiI0DURBKHh0DmpfoQN_OrxCI3DHWbWq-fGgEyaoxM3-DmwpAWGiLBYG2rLYoveCRpz1HakTHdK3Ot0Xm1I1Bl6lD1OzqNh4ToWGNfoQ9qEyeRt0p_XaNFAfPdDOLraVSkHFXunXmd2B2K8NDtQl2CPRbJFfGKghRNJei71xHYl0N7kg431FXbCktLpyFEDspbxxXgykDIeSmtHmIWqbLuoANVkWQ5QCKjTYvY5SR15fQMVaVk5Rnliqq7otooafxM"/>
+<!-- Floating Card 1 -->
+<div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl animate-float border border-slate-100 max-w-[200px]">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-2 bg-green-100 rounded-lg text-green-600">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<span class="text-sm font-bold text-slate-700">Growth Rate</span>
+</div>
+<p class="text-2xl font-bold text-slate-900">200% <span class="text-xs font-normal text-slate-500">Year over Year</span></p>
+</div>
+<!-- Floating Card 2 -->
+<div class="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl animate-float border border-slate-100" style="animation-delay: 1.5s;">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">verified</span>
+<span class="text-sm font-bold text-slate-700">ISO Certified</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Stats & Benefits -->
+<section class="py-20 bg-white relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16 max-w-3xl mx-auto">
+<h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why Partner with NTC?</h2>
+<p class="text-lg text-slate-600">Our franchise model is designed for scalability and success, backed by industry-leading support and a cutting-edge curriculum.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[minmax(180px,auto)]">
+<!-- Large Feature Block -->
+<div class="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 bg-slate-50 rounded-2xl p-8 relative overflow-hidden group border border-slate-100">
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h3 class="text-2xl font-bold text-slate-900 mb-2">World-Class Curriculum</h3>
+<p class="text-slate-600 text-lg">From Python to AI &amp; Robotics, our syllabus is constantly updated by industry experts to meet global standards.</p>
+</div>
+<div class="mt-8">
+<a class="text-primary font-bold inline-flex items-center gap-1 hover:gap-2 transition-all" href="#">
+                            View Syllabus <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="absolute right-0 bottom-0 w-1/2 h-full opacity-10 group-hover:opacity-20 transition-opacity bg-[url('https://cdn.simpleicons.org/icons/python.svg')] bg-no-repeat bg-bottom bg-contain translate-x-1/4 translate-y-1/4" data-alt="Abstract Python logo background"></div>
+</div>
+<!-- Stat Card -->
+<div class="bg-primary text-white rounded-2xl p-6 flex flex-col justify-between hover:bg-sky-600 transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-4xl opacity-80">storefront</span>
+<div>
+<p class="text-4xl font-bold mb-1">50+</p>
+<p class="text-sky-100 font-medium">Active Centers</p>
+</div>
+</div>
+<!-- Feature Card -->
+<div class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 hover:border-primary/50 transition-colors">
+<div class="w-10 h-10 bg-accent/10 text-accent rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">campaign</span>
+</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900">Marketing Support</h4>
+<p class="text-sm text-slate-600 mt-1">We handle national SEO &amp; ads while giving you assets for local growth.</p>
+</div>
+</div>
+<!-- Feature Card -->
+<div class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 hover:border-primary/50 transition-colors">
+<div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">group_add</span>
+</div>
+<div>
+<h4 class="text-lg font-bold text-slate-900">Hiring Assistance</h4>
+<p class="text-sm text-slate-600 mt-1">We interview &amp; train instructors to ensure quality education.</p>
+</div>
+</div>
+<!-- Wide Stat Card -->
+<div class="md:col-span-2 bg-slate-900 text-white rounded-2xl p-8 flex items-center justify-between relative overflow-hidden">
+<div class="relative z-10 max-w-[60%]">
+<h3 class="text-xl font-bold mb-2">High Return on Investment</h3>
+<p class="text-slate-400 text-sm">Our low-cost setup model ensures you break even faster than traditional education franchises.</p>
+</div>
+<div class="relative z-10 text-right">
+<p class="text-4xl font-bold text-accent">12-18</p>
+<p class="text-sm text-slate-400">Months Payback</p>
+</div>
+<!-- Decor -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Requirements Section (Glassmorphism) -->
+<section class="py-24 relative overflow-hidden bg-background-light">
+<!-- Moving Lines Background Effect (Simulated with CSS) -->
+<div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #047dc3 0, #047dc3 1px, transparent 0, transparent 50%); background-size: 30px 30px;"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
+<div class="max-w-2xl">
+<h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Franchise Requirements</h2>
+<p class="text-lg text-slate-600">We are looking for passionate individuals who want to make a difference. Here is what you need to get started.</p>
+</div>
+<button class="text-primary font-bold hover:text-sky-700 flex items-center gap-2">
+                Download Full Requirements <span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Glass Card 1 -->
+<div class="glass-card p-8 rounded-2xl hover:bg-white/80 transition-all">
+<div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined text-3xl">apartment</span>
+</div>
+<h3 class="text-xl font-bold text-slate-900 mb-3">Space Requirement</h3>
+<ul class="space-y-3 text-slate-600">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> 800 - 1500 Sq. ft.</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Ground or First Floor</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Residential/Commercial Mix</li>
+</ul>
+</div>
+<!-- Glass Card 2 -->
+<div class="glass-card p-8 rounded-2xl hover:bg-white/80 transition-all">
+<div class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center text-accent mb-6">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<h3 class="text-xl font-bold text-slate-900 mb-3">Investment</h3>
+<ul class="space-y-3 text-slate-600">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Initial Fee: $15k - $25k</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Setup Cost: Variable</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Working Capital: 3 Months</li>
+</ul>
+</div>
+<!-- Glass Card 3 -->
+<div class="glass-card p-8 rounded-2xl hover:bg-white/80 transition-all">
+<div class="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center text-purple-600 mb-6">
+<span class="material-symbols-outlined text-3xl">psychology</span>
+</div>
+<h3 class="text-xl font-bold text-slate-900 mb-3">Profile</h3>
+<ul class="space-y-3 text-slate-600">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Passion for Education</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Basic Business Acumen</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Full-time Involvement</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Process Roadmap -->
+<section class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-slate-900">How to Become a Partner</h2>
+</div>
+<div class="relative">
+<!-- Connecting Line (Desktop) -->
+<div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -translate-y-1/2 z-0"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+<!-- Step 1 -->
+<div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-center group hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-12 mx-auto bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 ring-4 ring-white">1</div>
+<h3 class="text-lg font-bold text-slate-900 mb-2">Apply Online</h3>
+<p class="text-sm text-slate-500">Fill out the franchise inquiry form with your basic details.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-center group hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-12 mx-auto bg-slate-100 text-slate-600 group-hover:bg-primary group-hover:text-white transition-colors rounded-full flex items-center justify-center text-xl font-bold mb-4 ring-4 ring-white">2</div>
+<h3 class="text-lg font-bold text-slate-900 mb-2">Screening</h3>
+<p class="text-sm text-slate-500">Our team reviews your profile and schedules a discovery call.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-center group hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-12 mx-auto bg-slate-100 text-slate-600 group-hover:bg-primary group-hover:text-white transition-colors rounded-full flex items-center justify-center text-xl font-bold mb-4 ring-4 ring-white">3</div>
+<h3 class="text-lg font-bold text-slate-900 mb-2">Agreement</h3>
+<p class="text-sm text-slate-500">Sign the franchise agreement and pay the initial fee.</p>
+</div>
+<!-- Step 4 -->
+<div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-center group hover:-translate-y-2 transition-transform duration-300">
+<div class="w-12 h-12 mx-auto bg-slate-100 text-slate-600 group-hover:bg-primary group-hover:text-white transition-colors rounded-full flex items-center justify-center text-xl font-bold mb-4 ring-4 ring-white">4</div>
+<h3 class="text-lg font-bold text-slate-900 mb-2">Launch</h3>
+<p class="text-sm text-slate-500">Center setup, staff training, and grand opening!</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-20 bg-slate-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">Partner Success Stories</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex gap-4">
+<img alt="Partner Portrait" class="w-16 h-16 rounded-full object-cover shrink-0" data-alt="Portrait of a business man in a suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrossapPBqxHP48DxR8c_0XHbELARbZSIVsw5ndzyvQ_gK4XybNt8McGSSekQ3ARgLzm8mfnOfyvYC86KqNaR6vvLeEBIzICuuD4d3M9z76u79l580EvW7JdCTJB5Rp2UU9CjnbB7pkyPb0l9ZD9hZd6zTNSl_ZLszAdn45jO-O8E80gMKNArKC_DEebbg59BnuHBSLzjKKlKuwl-3r7BGTB9JWs3G9AdLZpWxb-AHrnBA7A7gwONG20CkZ_-KURXdPtjqAKLFrj4"/>
+<div>
+<div class="flex text-yellow-400 mb-2">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+<p class="text-slate-700 italic mb-4">"The support from NTC HQ has been phenomenal. Within 8 months, I reached break-even and now I'm looking to open my second center."</p>
+<p class="font-bold text-slate-900">James Anderson</p>
+<p class="text-sm text-slate-500">Franchise Owner, Austin, TX</p>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex gap-4">
+<img alt="Partner Portrait" class="w-16 h-16 rounded-full object-cover shrink-0" data-alt="Portrait of a business woman in formal wear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXgtfX9jlIGW2RGFJPGG-J8pAqASrT8Zn0xUFsje9Bho-ld8XQ9L1jm3KeKt6kDDiYh4r1Hf85EfcmGYOwSnkZbnqkMNHSHMPBQgiP1XHKdNL7UNg5k8qwapr6FLETyxIHu-RE5HX4OAtjiclGMQnPM2ZX5cy_orAH7xbIESr6mQFqcFqjhwXyW90yNbGM_8uNBZwoQkmANiMann16pB9R9YkIvoB2wPFNPQg7HvsWsnD3_t0hNbYvRimiZYyZnSHXJ1k87pPanWw"/>
+<div>
+<div class="flex text-yellow-400 mb-2">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+<p class="text-slate-700 italic mb-4">"The curriculum is the real winner. Parents love how structured the coding path is for their kids. It practically sells itself."</p>
+<p class="font-bold text-slate-900">Sarah Chen</p>
+<p class="text-sm text-slate-500">Franchise Owner, Seattle, WA</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-white border-t border-slate-200 pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+<div class="col-span-2 md:col-span-1">
+<div class="flex items-center gap-2 mb-6">
+<div class="w-8 h-8 rounded bg-primary text-white flex items-center justify-center">
+<span class="material-symbols-outlined">code</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900">NTC</span>
+</div>
+<p class="text-sm text-slate-500">Empowering the future through code. Join the movement.</p>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 mb-4">Company</h4>
+<ul class="space-y-2 text-sm text-slate-600">
+<li><a class="hover:text-primary" href="#">About Us</a></li>
+<li><a class="hover:text-primary" href="#">Careers</a></li>
+<li><a class="hover:text-primary" href="#">Press</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 mb-4">Franchise</h4>
+<ul class="space-y-2 text-sm text-slate-600">
+<li><a class="hover:text-primary" href="#">Apply Now</a></li>
+<li><a class="hover:text-primary" href="#">Requirements</a></li>
+<li><a class="hover:text-primary" href="#">FAQ</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 mb-4">Contact</h4>
+<ul class="space-y-2 text-sm text-slate-600">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">mail</span> partner@ntc.com</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">call</span> +1 (555) 123-4567</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-slate-400">© 2024 Next Tech Coder. All rights reserved.</p>
+<div class="flex gap-4">
+<a class="text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">language</span></a>
+<a class="text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">public</span></a>
+</div>
+</div>
+</div>
+</footer>
+
+<!-- Mobile menu JS (keeps everything inline & simple) -->
+<script>
+  (function(){
+    const openBtn = document.getElementById('mobileMenuBtn');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const menu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('mobileBackdrop');
+    const closeBtn = document.getElementById('mobileCloseBtn');
+    const body = document.body;
+
+    function openMenu() {
+      overlay.classList.remove('hidden');
+      // small delay to allow transition
+      requestAnimationFrame(() => {
+        overlay.classList.add('menu-open'); // triggers hamburger transform
+        body.classList.add('overflow-hidden'); // prevent background scroll
+        menu.classList.add('open');
+        openBtn.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+      });
+      // focus first link
+      const firstLink = menu.querySelector('nav a, a');
+      if (firstLink) firstLink.focus();
+    }
+
+    function closeMenu() {
+      menu.classList.remove('open');
+      overlay.classList.remove('menu-open');
+      openBtn.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+      body.classList.remove('overflow-hidden');
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 300);
+      openBtn.focus();
+    }
+
+    openBtn.addEventListener('click', (e) => {
+      const expanded = openBtn.getAttribute('aria-expanded') === 'true';
+      if (expanded) closeMenu();
+      else openMenu();
+    });
+
+    closeBtn && closeBtn.addEventListener('click', closeMenu);
+    backdrop && backdrop.addEventListener('click', closeMenu);
+
+    // close when clicking any link in the mobile menu (so navigation closes)
+    menu && menu.addEventListener('click', (e) => {
+      const a = e.target.closest('a');
+      if (a) {
+        // small delay so user sees pressed state
+        setTimeout(closeMenu, 80);
+      }
+    });
+
+    // close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !overlay.classList.contains('hidden')) {
+        closeMenu();
+      }
+    });
+
+    // ensure menu hidden when resizing to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && !overlay.classList.contains('hidden')) {
+        closeMenu();
+      }
+    });
+  })();
+</script>
+</body></html>

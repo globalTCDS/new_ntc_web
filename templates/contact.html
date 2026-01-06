@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - EduTech</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind (CDN) with basic config -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0d59f2",
+            accent: "#f97316",
+            backgroundLight: "#f5f6f8",
+            backgroundDark: "#101622"
+          },
+          borderRadius: { DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px" },
+          animation: {
+            marquee: "marquee 35s linear infinite",
+            "data-flow-1": "dataFlow 20s linear infinite",
+            "data-flow-2": "dataFlow 25s linear infinite reverse",
+            "data-pulse": "dataPulse 4s ease-in-out infinite"
+          },
+          keyframes: {
+            marquee: { "0%": { transform: "translateX(0%)" }, "100%": { transform: "translateX(-100%)" } },
+            dataFlow: { "0%": { backgroundPosition: "0 0" }, "100%": { backgroundPosition: "100px 100px" } },
+            dataPulse: { "0%,100%": { opacity: "0.3" }, "50%": { opacity: "0.6" } }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root{ --muted:#606e8a; }
+    body { font-family: 'Manrope', sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+    .data-grid-bg{
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(13,89,242,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(13,89,242,0.05) 1px, transparent 1px);
+    }
+
+    .ticker-wrap {
+      width:100%; overflow:hidden; white-space:nowrap;
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+
+    ::-webkit-scrollbar{ width:8px;height:8px;}
+    ::-webkit-scrollbar-track{ background:transparent; }
+    ::-webkit-scrollbar-thumb{ background:#cbd5e1;border-radius:4px; }
+    ::-webkit-scrollbar-thumb:hover{ background:#94a3b8; }
+
+    body.menu-open { overflow:hidden; touch-action:none; }
+    .footer-bg { pointer-events: none; }
+
+    @keyframes dataFlow { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
+    @keyframes dataPulse { 0%,100% { opacity: .3 } 50% { opacity: .6 } }
+    @keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-100%) } }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#111318] dark:text-white">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white dark:bg-[#1a202c] border-b border-[#f0f1f5] dark:border-[#2d3748] px-4 md:px-10 py-3 sticky top-0 z-50">
+    <div class="max-w-[1200px] mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <div class="flex items-center gap-4 text-[#111318] dark:text-white">
+          <div class="size-8 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[32px]">school</span>
+          </div>
+          <h2 class="text-[#111318] dark:text-white text-lg font-bold">EduTech</h2>
+        </div>
+        <div class="hidden md:flex items-center gap-9">
+          <a class="text-sm font-medium hover:text-primary" href="/">Home</a>
+          <a class="text-sm font-medium hover:text-primary" href="courses">Courses</a>
+          <a class="text-sm font-medium hover:text-primary" href="francy">Francy</a>
+          <a class="text-sm font-medium hover:text-primary" href="about">About Us</a>
+          <a class="text-sm font-medium hover:text-primary" href="contact">Contact Us</a>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 md:gap-8">
+        <label class="hidden md:flex">
+          <div class="flex items-center bg-[#f0f1f5] dark:bg-[#2d3748] rounded-lg h-10 px-3">
+            <span class="material-symbols-outlined text-[20px] text-[#606e8a]">search</span>
+            <input placeholder="Search courses..." class="ml-3 bg-transparent outline-none text-sm text-[#111318] dark:text-white" />
+          </div>
+        </label>
+
+        <button class="hidden md:inline-flex bg-primary text-white px-4 py-2 rounded-lg font-bold">Log In</button>
+
+        <button id="mobileLoginBtn" class="md:hidden p-2 rounded-md" title="Log in">
+          <span class="material-symbols-outlined">login</span>
+        </button>
+
+        <button id="mobileMenuBtn" aria-controls="mobileMenu" aria-expanded="false" class="md:hidden p-2 rounded focus:outline-none" title="Open menu">
+          <div class="hamburger" aria-hidden="true" style="width:28px;height:20px;position:relative;display:inline-block;">
+            <span style="position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;top:0"></span>
+            <span style="position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;top:9px"></span>
+            <span style="position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;top:18px"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu overlay -->
+  <div id="mobileMenuOverlay" class="hidden fixed inset-0 z-50 mobile-overlay">
+    <button id="mobileBackdrop" class="absolute inset-0 bg-black/30"></button>
+    <aside id="mobileMenu" class="absolute top-0 right-0 w-full max-w-xs h-full bg-white dark:bg-[#0b1220] shadow-2xl p-5 transform transition">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded bg-primary text-white flex items-center justify-center">
+            <span class="material-symbols-outlined">school</span>
+          </div>
+          <div>
+            <div class="text-sm font-bold">EduTech</div>
+            <div class="text-xs text-[#606e8a]">Quick navigation</div>
+          </div>
+        </div>
+        <button id="mobileCloseBtn" class="p-2 rounded">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="flex flex-col gap-3 mb-4">
+        <a href="#" class="py-2 px-2 rounded hover:bg-gray-50">Courses</a>
+        <a href="#" class="py-2 px-2 rounded hover:bg-gray-50">Admissions</a>
+        <a href="#" class="py-2 px-2 rounded hover:bg-gray-50">About</a>
+        <a href="#" class="py-2 px-2 rounded hover:bg-gray-50">Contact</a>
+      </nav>
+
+      <div class="flex flex-col gap-3 mb-6">
+        <a href="#" class="w-full text-center bg-primary text-white font-bold px-4 py-2 rounded-lg">Log In</a>
+        <a href="#" class="w-full text-center border border-slate-200 text-[#111318] font-bold px-4 py-2 rounded-lg">Search courses</a>
+      </div>
+
+      <div class="mt-6 text-xs text-[#606e8a]">© 2024 EduTech</div>
+    </aside>
+  </div>
+
+  <!-- Hero -->
+  <div class="w-full bg-white dark:bg-[#1a202c]">
+    <div class="max-w-[1200px] mx-auto p-4 md:p-10">
+      <div class="rounded-xl overflow-hidden relative min-h-[400px] flex flex-col items-center justify-center text-center p-8 bg-cover bg-center" style='background-image: linear-gradient(rgba(13,89,242,0.8), rgba(16,22,34,0.9)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuC78PuxN_LQQR_0EXeER2uu0zBpyoPAMF-2oDBcWB4HM24F1bOryh2ifg3b6pbfplhVfiM0UEYuCo0f9nPytnh1XpzgrpXLs6ecsyw8P9F4QBSW9Fwt2l6TzdndKI616oYBCA3B4icWsZMhvAIomnovsEsmDZMv_xFmCcmqGxvEp56Lx5AOIydNTsNGQ25UxcnSMqCDeo99WbwJYNxrjG5vmr5f5xdI3WUdmjkU68bae_Wzwj-5uE7wbm3zxnw1jUhKVdrc99rkqdPk");'>
+        <div class="flex flex-col gap-4 max-w-[720px] relative z-10">
+          <span class="inline-block py-1 px-3 rounded-full bg-accent/20 text-accent border border-accent/40 text-xs font-bold uppercase tracking-wider w-fit mx-auto backdrop-blur-sm">24/7 Support</span>
+          <h1 class="text-white text-4xl md:text-5xl font-black leading-tight">Get in Touch</h1>
+          <p class="text-gray-200 text-lg">We're here to help you master your skills. Choose a category below to direct your inquiry to the right team for the fastest response.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inquiry Grid Section -->
+  <div class="w-full bg-background-light dark:bg-background-dark py-12">
+    <div class="max-w-[1200px] mx-auto px-4 md:px-10 flex flex-col gap-10">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[#111318] dark:text-white text-3xl font-bold">How can we help?</h2>
+          <p class="text-[#606e8a] dark:text-gray-400">Select the department relevant to your query.</p>
+        </div>
+        <button class="flex items-center gap-2 text-primary font-bold hover:underline">
+          <span>View Frequently Asked Questions</span>
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- General Inquiries -->
+        <div class="flex flex-col gap-4 p-6 rounded-xl bg-white dark:bg-[#1a202c] border border-[#dbdfe6] dark:border-[#2d3748] hover:border-accent transition-colors group shadow-sm">
+          <div class="rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary p-3">
+            <span class="material-symbols-outlined text-[28px]">forum</span>
+          </div>
+          <div class="flex flex-col gap-2 flex-1">
+            <h3 class="text-[#111318] dark:text-white text-lg font-bold">General Inquiries</h3>
+            <p class="text-[#606e8a] dark:text-gray-400 text-sm">For course questions, admissions, and general information about our programs.</p>
+          </div>
+          <div class="pt-4 mt-auto border-t border-dashed border-gray-200 dark:border-gray-700">
+            <a class="text-[#111318] dark:text-white text-sm font-semibold hover:text-primary flex items-center gap-2" href="mailto:hello@edutech.com">
+              <span class="material-symbols-outlined text-sm text-accent">mail</span>
+              hello@edutech.com
+            </a>
+            <button class="mt-4 w-full py-2 rounded-lg border border-[#dbdfe6] dark:border-gray-600 text-sm font-bold text-[#111318] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Send Message</button>
+          </div>
+        </div>
+
+        <!-- Technical Support -->
+        <div class="flex flex-col gap-4 p-6 rounded-xl bg-white dark:bg-[#1a202c] border border-[#dbdfe6] dark:border-[#2d3748] hover:border-accent transition-colors group shadow-sm">
+          <div class="rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary p-3">
+            <span class="material-symbols-outlined text-[28px]">build</span>
+          </div>
+          <div class="flex flex-col gap-2 flex-1">
+            <h3 class="text-[#111318] dark:text-white text-lg font-bold">Technical Support</h3>
+            <p class="text-[#606e8a] dark:text-gray-400 text-sm">Having trouble with the learning portal or need help with software installation?</p>
+          </div>
+          <div class="pt-4 mt-auto border-t border-dashed border-gray-200 dark:border-gray-700">
+            <a class="text-[#111318] dark:text-white text-sm font-semibold hover:text-primary flex items-center gap-2" href="mailto:support@edutech.com">
+              <span class="material-symbols-outlined text-sm text-accent">mail</span>
+              support@edutech.com
+            </a>
+            <button class="mt-4 w-full py-2 rounded-lg border border-[#dbdfe6] dark:border-gray-600 text-sm font-bold text-[#111318] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Open Ticket</button>
+          </div>
+        </div>
+
+        <!-- Partnerships -->
+        <div class="flex flex-col gap-4 p-6 rounded-xl bg-white dark:bg-[#1a202c] border border-[#dbdfe6] dark:border-[#2d3748] hover:border-accent transition-colors group shadow-sm">
+          <div class="rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary p-3">
+            <span class="material-symbols-outlined text-[28px]">handshake</span>
+          </div>
+          <div class="flex flex-col gap-2 flex-1">
+            <h3 class="text-[#111318] dark:text-white text-lg font-bold">Partnerships</h3>
+            <p class="text-[#606e8a] dark:text-gray-400 text-sm">For corporate training inquiries and hiring partner opportunities.</p>
+          </div>
+          <div class="pt-4 mt-auto border-t border-dashed border-gray-200 dark:border-gray-700">
+            <a class="text-[#111318] dark:text-white text-sm font-semibold hover:text-primary flex items-center gap-2" href="mailto:partners@edutech.com">
+              <span class="material-symbols-outlined text-sm text-accent">mail</span>
+              partners@edutech.com
+            </a>
+            <button class="mt-4 w-full py-2 rounded-lg border border-[#dbdfe6] dark:border-gray-600 text-sm font-bold text-[#111318] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Partner Inquiry</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- -------------------------
+       ONLY ANIMATED FOOTER (kept)
+-->
+
+
+  <footer class="relative w-full bg-white dark:bg-[#1a202c] border-t border-gray-100 dark:border-gray-800 pt-16 pb-8 overflow-hidden">
+    <!-- animated background layers (pointer-events none) -->
+    <div class="absolute inset-0 z-0 footer-bg overflow-hidden">
+      <!-- moving grid layer 1 -->
+      <div class="absolute inset-0 data-grid-bg opacity-60" style="animation: dataFlow 20s linear infinite;"></div>
+
+      <!-- moving grid layer 2 (rotated + slower) -->
+      <div class="absolute inset-0 data-grid-bg opacity-40" style="background-size:60px 60px; transform:rotate(5deg) scale(1.5); animation: dataFlow 25s linear infinite reverse;"></div>
+
+      <!-- network SVG overlay -->
+      <svg class="absolute top-0 left-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <pattern id="network-pattern" width="100" height="100" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="1.5" fill="#0d59f2"></circle>
+            <circle cx="50" cy="50" r="1.5" fill="#0d59f2"></circle>
+            <circle cx="90" cy="20" r="1.5" fill="#0d59f2"></circle>
+            <path d="M10 10 L50 50 M50 50 L90 20" stroke="#0d59f2" stroke-width="0.5"></path>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#network-pattern)"></rect>
+      </svg>
+
+      <!-- glow blobs -->
+      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-100/50 dark:bg-blue-900/10 rounded-full blur-3xl" style="animation: dataPulse 4s ease-in-out infinite;"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-100/40 dark:bg-cyan-900/10 rounded-full blur-3xl" style="animation: dataPulse 4s ease-in-out infinite; animation-delay:1s;"></div>
+      <div class="absolute top-1/2 left-2/3 w-40 h-40 bg-indigo-100/40 dark:bg-indigo-900/10 rounded-full blur-3xl" style="animation: dataPulse 4s ease-in-out infinite; animation-delay:2s;"></div>
+    </div>
+
+    <div class="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-white dark:from-[#1a202c] to-transparent z-0"></div>
+
+    <div class="max-w-[1200px] mx-auto px-6 sm:px-10 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+        <div class="lg:col-span-4 flex flex-col gap-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-[24px]">school</span>
+            </div>
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">TechEdu Inc.</span>
+          </div>
+          <p class="text-gray-500 dark:text-gray-400 max-w-sm">Empowering the next generation of developers with cutting-edge curriculum and a vibrant global community.</p>
+
+          <div class="flex gap-3 mt-2">
+            <a class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center border" href="#"><span class="material-symbols-outlined">share</span></a>
+            <a class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center border" href="#"><span class="material-symbols-outlined">work</span></a>
+            <a class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center border" href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+            <a class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center border" href="#"><span class="material-symbols-outlined">play_arrow</span></a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-8 bg-white/60 dark:bg-gray-800/60 backdrop-blur-md rounded-2xl p-8 lg:p-10 border relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div class="flex flex-col gap-2 max-w-md">
+              <h2 class="text-gray-900 dark:text-white text-2xl font-bold">Stay ahead of the curve.</h2>
+              <p class="text-gray-500 dark:text-gray-400 text-sm">Join our newsletter for the latest tech trends and <span class="text-accent font-medium">exclusive</span> free resources.</p>
+            </div>
+
+            <div class="w-full md:w-auto flex-1 max-w-[400px]">
+              <form class="flex w-full items-stretch rounded-xl bg-white dark:bg-gray-900 p-1 ring-1 ring-gray-200 dark:ring-gray-700">
+                <input class="w-full bg-transparent border-none text-gray-900 dark:text-white placeholder:text-gray-400 px-4 py-3 text-sm" placeholder="Enter your email" required type="email" />
+                <button class="bg-primary hover:bg-blue-700 text-white px-6 rounded-lg text-sm font-bold flex items-center gap-2" type="submit">
+                  <span>Join</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 border-t border-gray-100 dark:border-gray-800 pt-12 relative">
+        <div>
+          <h3 class="font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> Learn</h3>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Web Development</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Data Science</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">AI &amp; Machine Learning</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary">Cyber Security</a>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span> Community</h3>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Discord Server</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Tech Blog</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Student Success Stories</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary">Upcoming Events</a>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-sm uppercase tracking-wider mb-2">About</h3>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Our Mission</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Careers <span class="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-1">Hiring</span></a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary mb-1">Partners</a>
+          <a href="#" class="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary">Contact Us</a>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-sm uppercase tracking-wider mb-2">Get the App</h3>
+          <a class="inline-flex items-center gap-3 bg-gray-900 text-white rounded-lg p-3 mb-2" href="#">
+            <span class="material-symbols-outlined">ios</span>
+            <div class="flex flex-col leading-none">
+              <span class="text-[10px] uppercase opacity-70">Download on the</span>
+              <span class="font-bold">App Store</span>
+            </div>
+          </a>
+          <a class="inline-flex items-center gap-3 bg-gray-900 text-white rounded-lg p-3" href="#">
+            <span class="material-symbols-outlined">ad_units</span>
+            <div class="flex flex-col leading-none">
+              <span class="text-[10px] uppercase opacity-70">Get it on</span>
+              <span class="font-bold">Google Play</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ticker band -->
+    <div class="w-full bg-white/40 dark:bg-gray-900/40 backdrop-blur-sm py-3 border-y border-gray-100 dark:border-gray-800 mb-6 relative z-10">
+      <div class="ticker-wrap flex items-center">
+        <div class="inline-block animate-marquee whitespace-nowrap px-4 flex items-center gap-12">
+          <div class="flex items-center gap-3">
+            <span class="bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">New</span>
+            <span class="text-gray-700 dark:text-gray-300 text-sm font-medium flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">code</span> Python Masterclass Released</span>
+          </div>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+
+          <div class="flex items-center gap-3">
+            <span class="text-gray-700 dark:text-gray-300 text-sm font-medium flex items-center gap-2"><span class="material-symbols-outlined text-accent text-[18px]">local_fire_department</span> Summer Coding Camp Registration Open</span>
+          </div>
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+
+          <div class="flex items-center gap-3">
+            <span class="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Update</span>
+            <span class="text-gray-700 dark:text-gray-300 text-sm font-medium flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">verified</span> Updated Certification Paths</span>
+          </div>
+
+          <span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+          <div class="flex items-center gap-3">
+            <span class="bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">New</span>
+            <span class="text-gray-700 dark:text-gray-300 text-sm font-medium flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">code</span> Python Masterclass Released</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- legal + links -->
+    <div class="max-w-[1200px] mx-auto px-6 sm:px-10 relative z-10">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <p class="text-gray-400 dark:text-gray-500 text-sm">© 2024 TechEdu Inc. All rights reserved.</p>
+        <div class="flex flex-wrap justify-center gap-6">
+          <a class="text-gray-400 dark:text-gray-500 hover:text-primary text-sm" href="#">Privacy Policy</a>
+          <a class="text-gray-400 dark:text-gray-500 hover:text-primary text-sm" href="#">Terms of Service</a>
+          <a class="text-gray-400 dark:text-gray-500 hover:text-primary text-sm" href="#">Sitemap</a>
+          <a class="text-gray-400 dark:text-gray-500 hover:text-primary text-sm" href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- MOBILE MENU JS -->
+<script>
+  (function(){
+    const openBtn = document.getElementById('mobileMenuBtn');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const menu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('mobileBackdrop');
+    const closeBtn = document.getElementById('mobileCloseBtn');
+    const body = document.body;
+
+    function openMenu(){
+      if(!overlay) return;
+      overlay.classList.remove('hidden');
+      requestAnimationFrame(()=>{
+        document.documentElement.classList.add('menu-open');
+        body.classList.add('overflow-hidden');
+        menu.classList.add('open');
+        openBtn.setAttribute('aria-expanded','true');
+        menu.setAttribute('aria-hidden','false');
+      });
+      const first = menu.querySelector('nav a');
+      if(first) first.focus();
+    }
+
+    function closeMenu(){
+      if(!overlay) return;
+      menu.classList.remove('open');
+      document.documentElement.classList.remove('menu-open');
+      openBtn.setAttribute('aria-expanded','false');
+      menu.setAttribute('aria-hidden','true');
+      body.classList.remove('overflow-hidden');
+      setTimeout(()=> overlay.classList.add('hidden'), 280);
+      openBtn.focus();
+    }
+
+    if(openBtn) openBtn.addEventListener('click', () => {
+      const expanded = openBtn.getAttribute('aria-expanded') === 'true';
+      if(expanded) closeMenu(); else openMenu();
+    });
+    if(closeBtn) closeBtn.addEventListener('click', closeMenu);
+    if(backdrop) backdrop.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e)=> { if(e.key==='Escape' && overlay && !overlay.classList.contains('hidden')) closeMenu(); });
+    window.addEventListener('resize', ()=> { if(window.innerWidth >= 768 && overlay && !overlay.classList.contains('hidden')) closeMenu(); });
+  })();
+</script>
+
+</body>
+</html>
